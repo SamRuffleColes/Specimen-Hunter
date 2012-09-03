@@ -1,0 +1,8 @@
+ALTER TABLE fishspecies ADD editable INTEGER NOT NULL DEFAULT 0;
+UPDATE fishspecies SET description='Latin name, Alburnus alburnus. British Record stands at 4oz 9drms.', baits='Maggots, Pinkies', method='Trotting, Pole' WHERE _id='2';
+UPDATE fishspecies SET description='Latin name, Cottus gobio. British Record stands at 1oz.', baits='unknown', method='unknown' WHERE _id='4';
+UPDATE fishspecies SET description='Latin name, Carassius carassius. British Record stands at 4lbs 9oz 9drms.', baits='Maggots, Luncheon Meat', method='Pole, Waggler' WHERE _id='10';
+UPDATE fishspecies SET description='Back in the day, small boys would catch minnows using nothing but a matchstick, bent paperclip and a length of line. Sounds romantic, but the developer of this app is glad for his privileged 90s upbringing that could afford rods and reels. The British Record stands at a whopping 13.5drms.', baits='unknown', method='unknown' WHERE _id='15';
+UPDATE fishspecies SET description='Latin name, Gymnocephalus cernuus. British Record stands at 5oz 4drms.', baits='unknown', method='unknown' WHERE _id='20';
+UPDATE fishspecies SET description='Latin name, Gobio gobio. British Record stands at 5oz.', baits='Redworm, Maggots', method='Ledger, whip' WHERE _id='14';
+UPDATE fishspecies SET description='Latin name, Abramis bjoerkna. Not to be confused with skimmers, smaller common/bronze bream. British Record stands at 2lb 2oz.', baits='Maggots, Hemp', method='Waggler, Feeder' WHERE _id='21';
