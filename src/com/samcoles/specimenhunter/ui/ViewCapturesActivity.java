@@ -1,16 +1,21 @@
 package com.samcoles.specimenhunter.ui;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
+import com.deaux.fan.FanView;
 import com.samcoles.specimenhunter.R;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
 
-public class ViewCapturesActivity extends FragmentActivity {
+public class ViewCapturesActivity extends SherlockFragmentActivity {
+	
+	private FanView mFan;
 	
 	private TabsAdapter mAdapter;
 	private ViewPager mPager;
@@ -25,7 +30,13 @@ public class ViewCapturesActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tabs);
+		
+		
+		//setContentView(R.layout.tabs);
+		setContentView(R.layout.activity_fan);
+		
+		mFan = (FanView) findViewById(R.id.fan_view);
+        mFan.setViews(R.layout.tabs, R.layout.fan);
 		
 		mAdapter = new TabsAdapter(getSupportFragmentManager());
 		
@@ -34,6 +45,9 @@ public class ViewCapturesActivity extends FragmentActivity {
         
         mIndicator = (TabPageIndicator)findViewById(R.id.indicator);
         mIndicator.setViewPager(mPager);
+        
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 	
 	class TabsAdapter extends FragmentPagerAdapter {
@@ -66,4 +80,18 @@ public class ViewCapturesActivity extends FragmentActivity {
 
 	}
 
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+			case android.R.id.home:
+				mFan.showMenu();
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	
+	
 }
