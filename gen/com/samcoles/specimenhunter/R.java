@@ -20,6 +20,7 @@ public final class R {
         public static final int databasecreate3=0x7f030002;
         public static final int databasecreate4=0x7f030003;
         public static final int databasecreate5=0x7f030004;
+        public static final int databasecreate6=0x7f030005;
     }
     public static final class string {
         public static final int app_name=0x7f040000;

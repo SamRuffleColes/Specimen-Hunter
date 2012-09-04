@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.samcoles.specimenhunter.R;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -15,6 +13,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+
+import com.samcoles.specimenhunter.R;
 
 public class SpecimenHunterDatabaseAdapter {
 	
@@ -28,6 +28,7 @@ public class SpecimenHunterDatabaseAdapter {
 	public static final String KEY_CAPTURES_OUNCES = "ounces"; 
 	public static final String KEY_CAPTURES_DRAMS = "drams"; 
 	public static final String KEY_CAPTURES_COMMENT = "comment";
+	public static final String KEY_CAPTURES_CENTIGRAMS = "centigrams";
 	
 	public static final String KEY_SPECIES_ROWID = "_id";
 	public static final String KEY_SPECIES_NAME = "name";
@@ -41,12 +42,18 @@ public class SpecimenHunterDatabaseAdapter {
 	public static final String KEY_TARGETS_POUNDS = "pounds";
 	public static final String KEY_TARGETS_OUNCES = "ounces";
 	public static final String KEY_TARGETS_DRAMS = "drams";	
+	public static final String KEY_TARGETS_CENTIGRAMS = "centigrams";
+	
+	public static final String KEY_METADATA_METADATA = "metadata";
+	public static final String METADATA_CENTIGRAMS_CONVERTED = "centigramsconverted";
+	
 	
 	private static final String DATABASE_NAME = "shdata";
 	private static final String CAPTURES_TABLE = "fishcaptures";
 	private static final String SPECIES_TABLE = "fishspecies";
 	private static final String TARGETS_TABLE = "fishtargets";
-	private static final int DATABASE_VERSION = 5;
+	private static final String METADATA_TABLE = "dbmetadata";
+	private static final int DATABASE_VERSION = 6;
 	
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
@@ -69,6 +76,7 @@ public class SpecimenHunterDatabaseAdapter {
 			buildDatabase(3, db);
 			buildDatabase(4, db);
 			buildDatabase(5, db);
+			buildDatabase(6, db);
 		}
 
 		@Override
@@ -100,6 +108,10 @@ public class SpecimenHunterDatabaseAdapter {
 				break;
 			case 5:
 				insertIn = new BufferedReader(new InputStreamReader(mContext.getResources().openRawResource(R.raw.databasecreate5)));
+				break;
+			case 6:
+				insertIn = new BufferedReader(new InputStreamReader(mContext.getResources().openRawResource(R.raw.databasecreate6)));
+				break;
 			default:
 				break;
 			}
@@ -115,6 +127,7 @@ public class SpecimenHunterDatabaseAdapter {
             
 			Log.i(TAG, "buildDatabase() - database version " + version + " built");
 		}
+
 	}
 	
 	public SpecimenHunterDatabaseAdapter(Context context) {
@@ -124,6 +137,13 @@ public class SpecimenHunterDatabaseAdapter {
 	public SpecimenHunterDatabaseAdapter open() throws SQLException {
 		mDbHelper = new DatabaseHelper(mContext);
 		mDb = mDbHelper.getWritableDatabase();
+		
+		//database version 6 introduces centigrams column to captures and targets
+		//convert all values if not already converted...
+		if(!isConvertedToCentigrams()) {
+			convertToCentigrams();
+		}
+		
 		return this;
 	}
 	
@@ -131,14 +151,12 @@ public class SpecimenHunterDatabaseAdapter {
 		mDbHelper.close();
 	}
 	
-	public boolean createCapture(String title, long speciesId, String photo, int pounds, int ounces, int drams, String comment) {
+	public boolean createCapture(String title, long speciesId, String photo, int centigrams, String comment) {
 		ContentValues capture = new ContentValues();
 		capture.put(KEY_CAPTURES_TITLE, title);
 		capture.put(KEY_CAPTURES_SPECIES, speciesId);
 		capture.put(KEY_CAPTURES_PHOTO, photo);
-		capture.put(KEY_CAPTURES_POUNDS, pounds);
-		capture.put(KEY_CAPTURES_OUNCES, ounces);
-		capture.put(KEY_CAPTURES_DRAMS, drams);
+		capture.put(KEY_CAPTURES_CENTIGRAMS, centigrams);
 		if(comment != null) {
 			capture.put(KEY_CAPTURES_COMMENT, comment);
 		}
@@ -152,14 +170,12 @@ public class SpecimenHunterDatabaseAdapter {
 		return statement.simpleQueryForLong();		
 	}
 		
-	public boolean updateCapture(long id, String title, long speciesId, String photo, int pounds, int ounces, int drams, String comment) {
+	public boolean updateCapture(long id, String title, long speciesId, String photo, int centigrams, String comment) {
 		ContentValues capture = new ContentValues();
 		capture.put(KEY_CAPTURES_TITLE, title);
 		capture.put(KEY_CAPTURES_SPECIES, speciesId);
 		capture.put(KEY_CAPTURES_PHOTO, photo);
-		capture.put(KEY_CAPTURES_POUNDS, pounds);
-		capture.put(KEY_CAPTURES_OUNCES, ounces);
-		capture.put(KEY_CAPTURES_DRAMS, drams);
+		capture.put(KEY_CAPTURES_CENTIGRAMS, centigrams);
 		if(comment != null) {
 			capture.put(KEY_CAPTURES_COMMENT, comment);
 		}			
@@ -181,22 +197,16 @@ public class SpecimenHunterDatabaseAdapter {
 							+ " ORDER BY " + KEY_CAPTURES_SPECIES + ";" , null);
 		case SORT_WEIGHT:
 			return mDb.rawQuery("SELECT * FROM " + CAPTURES_TABLE
-							+ " ORDER BY " + KEY_CAPTURES_POUNDS + " DESC, "
-										   + KEY_CAPTURES_OUNCES + " DESC, "
-										   + KEY_CAPTURES_DRAMS + " DESC;", null);
+							+ " ORDER BY " + KEY_CAPTURES_CENTIGRAMS + " DESC;", null);
 		case SORT_NONE:
 		default:
-			return mDb.query(CAPTURES_TABLE, new String[] { KEY_CAPTURES_ROWID, KEY_CAPTURES_TITLE, KEY_CAPTURES_SPECIES, KEY_CAPTURES_PHOTO, KEY_CAPTURES_POUNDS, KEY_CAPTURES_OUNCES, KEY_CAPTURES_DRAMS, KEY_CAPTURES_COMMENT },
+			return mDb.query(CAPTURES_TABLE, new String[] { KEY_CAPTURES_ROWID, KEY_CAPTURES_TITLE, KEY_CAPTURES_SPECIES, KEY_CAPTURES_PHOTO, KEY_CAPTURES_CENTIGRAMS, KEY_CAPTURES_COMMENT },
 					null, null, null, null, null);
 		}
 	}
 	
-	public Cursor fetchAllCaptures() {
-		return fetchAllCaptures(SORT_NONE);
-	}
-	
 	public Cursor fetchCapture(long id) {
-		Cursor c = mDb.query(CAPTURES_TABLE, new String[] { KEY_CAPTURES_ROWID, KEY_CAPTURES_TITLE, KEY_CAPTURES_SPECIES, KEY_CAPTURES_PHOTO, KEY_CAPTURES_POUNDS, KEY_CAPTURES_OUNCES, KEY_CAPTURES_DRAMS, KEY_CAPTURES_COMMENT },
+		Cursor c = mDb.query(CAPTURES_TABLE, new String[] { KEY_CAPTURES_ROWID, KEY_CAPTURES_TITLE, KEY_CAPTURES_SPECIES, KEY_CAPTURES_PHOTO, KEY_CAPTURES_CENTIGRAMS, KEY_CAPTURES_COMMENT },
 				KEY_CAPTURES_ROWID + "=" + id, null, null, null, null); 
 		if(c != null) {
 			c.moveToFirst();
@@ -253,6 +263,7 @@ public class SpecimenHunterDatabaseAdapter {
 		return mDb.update(SPECIES_TABLE, species, KEY_SPECIES_ROWID + "=" + id, null) > 0;		
 	}
 	
+	//FIXME this code looks dodgy and needs testing
 	public boolean deleteSpecies(long id) {
 		boolean result = true;
 		
@@ -265,6 +276,7 @@ public class SpecimenHunterDatabaseAdapter {
 			if(!deleteCapture(captureId))
 				result = false;
 			
+			c.close();
 			c = fetchCapturesOfSpecies(id);
 		}
 		c.close();
@@ -280,7 +292,7 @@ public class SpecimenHunterDatabaseAdapter {
 	}
 
 	private Cursor fetchCapturesOfSpecies(long speciesId) {		
-		Cursor c = mDb.query(CAPTURES_TABLE, new String[] { KEY_CAPTURES_ROWID, KEY_CAPTURES_TITLE, KEY_CAPTURES_SPECIES, KEY_CAPTURES_PHOTO, KEY_CAPTURES_POUNDS, KEY_CAPTURES_OUNCES, KEY_CAPTURES_DRAMS, KEY_CAPTURES_COMMENT },
+		Cursor c = mDb.query(CAPTURES_TABLE, new String[] { KEY_CAPTURES_ROWID, KEY_CAPTURES_TITLE, KEY_CAPTURES_SPECIES, KEY_CAPTURES_PHOTO, KEY_CAPTURES_CENTIGRAMS, KEY_CAPTURES_COMMENT },
 				KEY_CAPTURES_SPECIES + "=" + speciesId, null, null, null, null); 		
 		if(c != null) {
 			c.moveToFirst();
@@ -309,7 +321,7 @@ public class SpecimenHunterDatabaseAdapter {
 	public Cursor fetchPB(int speciesId) {
 		String sql = "SELECT * FROM " + CAPTURES_TABLE 
 				+ " WHERE " + KEY_CAPTURES_SPECIES + "=" + speciesId + " ORDER BY "
-				+ KEY_CAPTURES_POUNDS + " DESC, " + KEY_CAPTURES_OUNCES + " DESC, " + KEY_CAPTURES_DRAMS + " DESC LIMIT 1";
+				+ KEY_CAPTURES_CENTIGRAMS + " DESC LIMIT 1";
 		Cursor c = mDb.rawQuery(sql, null);
 		if(c != null) {
 			c.moveToFirst();
@@ -317,15 +329,14 @@ public class SpecimenHunterDatabaseAdapter {
 		return c;
 	}
 	
-	public Cursor fetchAllPBs() {		
-		
+	public Cursor fetchAllPBs() {	
 		String sql = "SELECT * " +
 					"FROM fishcaptures AS C1 " +
-					"WHERE (100*pounds+10*ounces+drams) = " +
-					"(SELECT MAX(100*pounds+10*ounces+drams) " +
+					"WHERE centigrams = " +
+					"(SELECT MAX(centigrams) " +
 					"FROM fishcaptures AS C2 " +
 					"WHERE C2.species = c1.species) " +
-					"ORDER BY pounds DESC, ounces DESC, drams DESC;";
+					"ORDER BY centigrams DESC;";
 		
 		Cursor c = mDb.rawQuery(sql, null);
 		if(c != null) {
@@ -334,17 +345,11 @@ public class SpecimenHunterDatabaseAdapter {
 		return c;
 	}
 
-	public Cursor fetchAllTargets() {
-		return mDb.query(TARGETS_TABLE, new String[] { KEY_TARGETS_ROWID, KEY_TARGETS_SPECIES, KEY_TARGETS_POUNDS, KEY_TARGETS_OUNCES, KEY_TARGETS_DRAMS },
-				null, null, null, null, null);
-	}
 	
-	public boolean createTarget(int species, int pounds, int ounces, int drams) {
+	private boolean createTarget(int species, int centigrams) {
 		ContentValues target = new ContentValues();
 		target.put(KEY_TARGETS_SPECIES, species);
-		target.put(KEY_TARGETS_POUNDS, pounds);
-		target.put(KEY_TARGETS_OUNCES, ounces);
-		target.put(KEY_TARGETS_DRAMS, drams);
+		target.put(KEY_TARGETS_CENTIGRAMS, centigrams);
 		
 		return mDb.insert(TARGETS_TABLE, null, target) > 0;
 	}
@@ -355,6 +360,75 @@ public class SpecimenHunterDatabaseAdapter {
 	
 	private boolean deleteTargetsofSpecies(long speciesId) {
 		return mDb.delete(TARGETS_TABLE, KEY_TARGETS_SPECIES + "=" + speciesId, null) > 0;		
+	}
+	
+	
+	
+	private Cursor fetchAllTargetsImperial() {
+		return mDb.query(TARGETS_TABLE, new String[] { KEY_TARGETS_ROWID, KEY_TARGETS_SPECIES, KEY_TARGETS_POUNDS, KEY_TARGETS_OUNCES, KEY_TARGETS_DRAMS },
+				null, null, null, null, null);
+	}
+	
+	private Cursor fetchAllCapturesImperial() {
+		return mDb.query(CAPTURES_TABLE, new String[] { KEY_CAPTURES_ROWID, KEY_CAPTURES_TITLE, KEY_CAPTURES_SPECIES, KEY_CAPTURES_PHOTO, KEY_CAPTURES_POUNDS, KEY_CAPTURES_OUNCES, KEY_CAPTURES_DRAMS, KEY_CAPTURES_COMMENT },
+				null, null, null, null, null);
+	}
+	
+	private boolean isConvertedToCentigrams() {
+		Cursor c = mDb.query(METADATA_TABLE, new String[] { KEY_METADATA_METADATA },
+				KEY_METADATA_METADATA + "=" + METADATA_CENTIGRAMS_CONVERTED, null, null, null, null); 		
+		if(c != null) {
+			c.moveToFirst();
+			return true;
+		}		
+		return false;
+	}
+	
+	private boolean convertToCentigrams() {
+		
+		Cursor captures = fetchAllCapturesImperial();
+		if(captures == null) return false;
+		captures.moveToFirst();
+		while(!captures.isAfterLast()) {			
+			int id = captures.getInt(captures.getColumnIndexOrThrow(KEY_CAPTURES_ROWID));
+			int pounds = captures.getInt(captures.getColumnIndexOrThrow(KEY_CAPTURES_POUNDS));
+			int ounces = captures.getInt(captures.getColumnIndexOrThrow(KEY_CAPTURES_OUNCES));
+			int drams = captures.getInt(captures.getColumnIndexOrThrow(KEY_CAPTURES_DRAMS));
+			
+			MetricWeight metricWeight = new MetricWeight(pounds, ounces, drams);
+			int centigrams = metricWeight.getCentigrams();
+			
+			ContentValues updateValues = new ContentValues();
+			updateValues.put(KEY_CAPTURES_CENTIGRAMS, centigrams);	
+			mDb.update(CAPTURES_TABLE, updateValues, KEY_CAPTURES_ROWID + "=" + id, null);			
+			captures.moveToNext();
+		}
+		captures.close();
+		
+		Cursor targets = fetchAllTargetsImperial();
+		if(targets == null) return false;
+		targets.moveToFirst();
+		while(!targets.isAfterLast()) {
+			int id = targets.getInt(targets.getColumnIndexOrThrow(KEY_TARGETS_ROWID));
+			int pounds = targets.getInt(targets.getColumnIndexOrThrow(KEY_TARGETS_POUNDS));
+			int ounces = targets.getInt(targets.getColumnIndexOrThrow(KEY_TARGETS_OUNCES));
+			int drams = targets.getInt(targets.getColumnIndexOrThrow(KEY_TARGETS_DRAMS));
+			
+			MetricWeight metricWeight = new MetricWeight(pounds, ounces, drams);
+			int centigrams = metricWeight.getCentigrams();
+			
+			ContentValues updateValues = new ContentValues();
+			updateValues.put(KEY_TARGETS_CENTIGRAMS, centigrams);
+			mDb.update(TARGETS_TABLE, updateValues, KEY_TARGETS_ROWID + "=" + id, null);
+			targets.moveToNext();			
+		}
+		targets.close();
+		
+		ContentValues metadata = new ContentValues();
+		metadata.put(KEY_METADATA_METADATA, METADATA_CENTIGRAMS_CONVERTED);
+		mDb.insert(METADATA_TABLE, null, metadata);		
+		
+		return true;
 	}
 	
 }
