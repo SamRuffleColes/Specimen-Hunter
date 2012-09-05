@@ -29,8 +29,7 @@ public class ViewCapturesActivity extends SherlockFragmentActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
+		super.onCreate(savedInstanceState);		
 		
 		//setContentView(R.layout.tabs);
 		setContentView(R.layout.activity_fan);

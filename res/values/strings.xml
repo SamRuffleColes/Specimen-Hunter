@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Specimen Hunter</string>
+    
+    <string name="new_capture">New Capture</string>
+    <string name="all_captures">All Captures</string>
+    <string name="personal_bests">Personal Bests</string>
+    <string name="targets">Targets</string>
+    <string name="species">Species</string>
+    
 </resources>

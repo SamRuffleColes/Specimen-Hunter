@@ -1099,15 +1099,24 @@ containing a value of this type.
         public static final int abs__tab_selected_holo=0x7f020052;
         public static final int abs__tab_selected_pressed_holo=0x7f020053;
         public static final int abs__tab_unselected_pressed_holo=0x7f020054;
-        public static final int dropshadow=0x7f020055;
-        public static final int ic_launcher=0x7f020056;
-        public static final int vpi__tab_indicator=0x7f020057;
-        public static final int vpi__tab_selected_focused_holo=0x7f020058;
-        public static final int vpi__tab_selected_holo=0x7f020059;
-        public static final int vpi__tab_selected_pressed_holo=0x7f02005a;
-        public static final int vpi__tab_unselected_focused_holo=0x7f02005b;
-        public static final int vpi__tab_unselected_holo=0x7f02005c;
-        public static final int vpi__tab_unselected_pressed_holo=0x7f02005d;
+        public static final int background_noise=0x7f020055;
+        public static final int background_noise_tile=0x7f020056;
+        public static final int clickable=0x7f020057;
+        public static final int dropshadow=0x7f020058;
+        public static final int ic_launcher=0x7f020059;
+        public static final int icon=0x7f02005a;
+        public static final int menu_all_captures=0x7f02005b;
+        public static final int menu_new_capture=0x7f02005c;
+        public static final int menu_personal_bests=0x7f02005d;
+        public static final int menu_species=0x7f02005e;
+        public static final int menu_targets=0x7f02005f;
+        public static final int vpi__tab_indicator=0x7f020060;
+        public static final int vpi__tab_selected_focused_holo=0x7f020061;
+        public static final int vpi__tab_selected_holo=0x7f020062;
+        public static final int vpi__tab_selected_pressed_holo=0x7f020063;
+        public static final int vpi__tab_unselected_focused_holo=0x7f020064;
+        public static final int vpi__tab_unselected_holo=0x7f020065;
+        public static final int vpi__tab_unselected_pressed_holo=0x7f020066;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f060025;
@@ -1139,24 +1148,29 @@ containing a value of this type.
         public static final int abs__title=0x7f06001e;
         public static final int abs__titleDivider=0x7f06001f;
         public static final int abs__up=0x7f06000e;
-        public static final int appView=0x7f06002e;
+        public static final int appView=0x7f060033;
         public static final int disableHome=0x7f06000c;
-        public static final int dropshadow=0x7f06002f;
-        public static final int fanView=0x7f06002c;
+        public static final int dropshadow=0x7f060034;
+        public static final int fanView=0x7f060031;
         public static final int fan_view=0x7f06002a;
         public static final int homeAsUp=0x7f060009;
-        public static final int indicator=0x7f060031;
-        public static final int layout=0x7f06002b;
+        public static final int indicator=0x7f060036;
+        public static final int layout=0x7f060030;
         public static final int listMode=0x7f060005;
+        public static final int menu_item_all_captures=0x7f06002c;
+        public static final int menu_item_new_capture=0x7f06002b;
+        public static final int menu_item_personal_bests=0x7f06002d;
+        public static final int menu_item_species=0x7f06002f;
+        public static final int menu_item_targets=0x7f06002e;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060004;
-        public static final int pager=0x7f060032;
+        public static final int pager=0x7f060037;
         public static final int showCustom=0x7f06000b;
         public static final int showHome=0x7f060008;
         public static final int showTitle=0x7f06000a;
         public static final int tabMode=0x7f060006;
-        public static final int textView1=0x7f060030;
-        public static final int tintView=0x7f06002d;
+        public static final int textView1=0x7f060035;
+        public static final int tintView=0x7f060032;
         public static final int triangle=0x7f060001;
         public static final int underline=0x7f060002;
         public static final int useLogo=0x7f060007;
@@ -1238,8 +1252,13 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f05000b;
+        public static final int all_captures=0x7f05000d;
         public static final int app_name=0x7f050001;
         public static final int hello=0x7f050000;
+        public static final int new_capture=0x7f05000c;
+        public static final int personal_bests=0x7f05000e;
+        public static final int species=0x7f050010;
+        public static final int targets=0x7f05000f;
     }
     public static final class style {
         public static final int AppTheme=0x7f0b0060;
