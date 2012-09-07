@@ -7,4 +7,17 @@
     <string name="targets">Targets</string>
     <string name="species">Species</string>
     
+    
+    <string name="species_and_weight_imperial">%1$s of %2$d lbs, %3$d oz, %4$d drms</string>
+    <string name="species_and_weight_metric">%1$s of %2$d kg, %3$d grms</string>
+    
+    <string name="capture_title">Capture Title</string>
+    <string name="species">Species</string>
+    <string name="pounds">lbs</string>
+    <string name="ounces">oz</string>
+    <string name="drams">drms</string>
+    <string name="kilograms">kg</string>
+    <string name="photo">Photo</string>
+    <string name="comment">Comment</string>
+    
 </resources>

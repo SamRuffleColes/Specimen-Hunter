@@ -25,6 +25,10 @@ public class MetricWeight {
 		mCentigrams = centigrams;
 	}
 	
+	public MetricWeight(double kilograms) {
+		mCentigrams = (int) (kilograms * CENTIGRAMS_IN_ONE_KILOGRAM);
+	}
+	
 	public MetricWeight(int pounds, int ounces, int drams) {
 		mCentigrams += pounds * CENTIGRAMS_IN_ONE_POUND;
 		mCentigrams += ounces * CENTIGRAMS_IN_ONE_OUNCE;

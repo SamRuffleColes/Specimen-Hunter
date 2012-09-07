@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/menu_item_new_capture"
+        android:id="@+id/fan_item_new_capture"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/clickable"
@@ -25,7 +25,7 @@
     </LinearLayout>
     
     <LinearLayout
-        android:id="@+id/menu_item_all_captures"
+        android:id="@+id/fan_item_all_captures"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/clickable"
@@ -44,7 +44,7 @@
     </LinearLayout>
     
     <LinearLayout
-        android:id="@+id/menu_item_personal_bests"
+        android:id="@+id/fan_item_personal_bests"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/clickable"
@@ -63,7 +63,7 @@
     </LinearLayout>
     
     <LinearLayout
-        android:id="@+id/menu_item_targets"
+        android:id="@+id/fan_item_targets"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/clickable"
@@ -82,7 +82,7 @@
     </LinearLayout>
     
     <LinearLayout
-        android:id="@+id/menu_item_species"
+        android:id="@+id/fan_item_species"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/clickable"

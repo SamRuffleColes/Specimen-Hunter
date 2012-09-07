@@ -1110,13 +1110,14 @@ containing a value of this type.
         public static final int menu_personal_bests=0x7f02005d;
         public static final int menu_species=0x7f02005e;
         public static final int menu_targets=0x7f02005f;
-        public static final int vpi__tab_indicator=0x7f020060;
-        public static final int vpi__tab_selected_focused_holo=0x7f020061;
-        public static final int vpi__tab_selected_holo=0x7f020062;
-        public static final int vpi__tab_selected_pressed_holo=0x7f020063;
-        public static final int vpi__tab_unselected_focused_holo=0x7f020064;
-        public static final int vpi__tab_unselected_holo=0x7f020065;
-        public static final int vpi__tab_unselected_pressed_holo=0x7f020066;
+        public static final int photo_blank=0x7f020060;
+        public static final int vpi__tab_indicator=0x7f020061;
+        public static final int vpi__tab_selected_focused_holo=0x7f020062;
+        public static final int vpi__tab_selected_holo=0x7f020063;
+        public static final int vpi__tab_selected_pressed_holo=0x7f020064;
+        public static final int vpi__tab_unselected_focused_holo=0x7f020065;
+        public static final int vpi__tab_unselected_holo=0x7f020066;
+        public static final int vpi__tab_unselected_pressed_holo=0x7f020067;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f060025;
@@ -1148,32 +1149,50 @@ containing a value of this type.
         public static final int abs__title=0x7f06001e;
         public static final int abs__titleDivider=0x7f06001f;
         public static final int abs__up=0x7f06000e;
-        public static final int appView=0x7f060033;
+        public static final int appView=0x7f060039;
         public static final int disableHome=0x7f06000c;
-        public static final int dropshadow=0x7f060034;
-        public static final int fanView=0x7f060031;
+        public static final int dropshadow=0x7f06003a;
+        public static final int edittext_capture_title=0x7f06002b;
+        public static final int edittext_comment=0x7f06002e;
+        public static final int edittext_drams=0x7f060047;
+        public static final int edittext_kilograms=0x7f060049;
+        public static final int edittext_ounces=0x7f060045;
+        public static final int edittext_pounds=0x7f060043;
+        public static final int fanView=0x7f060037;
+        public static final int fan_item_all_captures=0x7f060032;
+        public static final int fan_item_new_capture=0x7f060031;
+        public static final int fan_item_personal_bests=0x7f060033;
+        public static final int fan_item_species=0x7f060035;
+        public static final int fan_item_targets=0x7f060034;
         public static final int fan_view=0x7f06002a;
         public static final int homeAsUp=0x7f060009;
-        public static final int indicator=0x7f060036;
-        public static final int layout=0x7f060030;
+        public static final int imagebutton_camera=0x7f060041;
+        public static final int imagebutton_gallery=0x7f060040;
+        public static final int imageview_capture_thumbnail=0x7f06003d;
+        public static final int imageview_image=0x7f06003f;
+        public static final int indicator=0x7f06002f;
+        public static final int layout=0x7f060036;
         public static final int listMode=0x7f060005;
-        public static final int menu_item_all_captures=0x7f06002c;
-        public static final int menu_item_new_capture=0x7f06002b;
-        public static final int menu_item_personal_bests=0x7f06002d;
-        public static final int menu_item_species=0x7f06002f;
-        public static final int menu_item_targets=0x7f06002e;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060004;
-        public static final int pager=0x7f060037;
+        public static final int pager=0x7f060030;
+        public static final int photo_picker=0x7f06002d;
         public static final int showCustom=0x7f06000b;
         public static final int showHome=0x7f060008;
         public static final int showTitle=0x7f06000a;
         public static final int tabMode=0x7f060006;
-        public static final int textView1=0x7f060035;
-        public static final int tintView=0x7f060032;
+        public static final int textview_capture_comment=0x7f06003e;
+        public static final int textview_capture_species_and_weight=0x7f06003c;
+        public static final int textview_capture_title=0x7f06003b;
+        public static final int textview_drams=0x7f060046;
+        public static final int textview_kilograms=0x7f060048;
+        public static final int textview_ounces=0x7f060044;
+        public static final int textview_pounds=0x7f060042;
+        public static final int tintView=0x7f060038;
         public static final int triangle=0x7f060001;
         public static final int underline=0x7f060002;
         public static final int useLogo=0x7f060007;
+        public static final int weight_input=0x7f06002c;
         public static final int wrap_content=0x7f060003;
     }
     public static final class integer {
@@ -1204,14 +1223,17 @@ containing a value of this type.
         public static final int abs__screen_action_bar_overlay=0x7f030011;
         public static final int abs__screen_simple=0x7f030012;
         public static final int abs__screen_simple_overlay_action_mode=0x7f030013;
-        public static final int activity_fan=0x7f030014;
-        public static final int fan=0x7f030015;
-        public static final int fan_view=0x7f030016;
-        public static final int fragment_all_captures=0x7f030017;
-        public static final int fragment_personal_bests=0x7f030018;
-        public static final int sherlock_spinner_dropdown_item=0x7f030019;
-        public static final int sherlock_spinner_item=0x7f03001a;
-        public static final int tabs=0x7f03001b;
+        public static final int activity_base=0x7f030014;
+        public static final int activity_new_capture=0x7f030015;
+        public static final int activity_tabs=0x7f030016;
+        public static final int fan=0x7f030017;
+        public static final int fan_view=0x7f030018;
+        public static final int li_capture=0x7f030019;
+        public static final int photo_picker=0x7f03001a;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001b;
+        public static final int sherlock_spinner_item=0x7f03001c;
+        public static final int weight_input_imperial=0x7f03001d;
+        public static final int weight_input_metric=0x7f03001e;
     }
     public static final class raw {
         public static final int databasecreate=0x7f040000;
@@ -1254,17 +1276,25 @@ containing a value of this type.
         public static final int abs__shareactionprovider_share_with_application=0x7f05000b;
         public static final int all_captures=0x7f05000d;
         public static final int app_name=0x7f050001;
+        public static final int capture_title=0x7f050013;
+        public static final int cd_thumbnail=0x7f05001a;
+        public static final int comment=0x7f050019;
+        public static final int drams=0x7f050016;
         public static final int hello=0x7f050000;
+        public static final int kilograms=0x7f050017;
         public static final int new_capture=0x7f05000c;
+        public static final int ounces=0x7f050015;
         public static final int personal_bests=0x7f05000e;
+        public static final int photo=0x7f050018;
+        public static final int pounds=0x7f050014;
         public static final int species=0x7f050010;
+        public static final int species_and_weight_imperial=0x7f050011;
+        public static final int species_and_weight_metric=0x7f050012;
         public static final int targets=0x7f05000f;
     }
     public static final class style {
         public static final int AppTheme=0x7f0b0060;
         /**  "Implementation" of VPI theme. We just set the text size and color. 
-         <item name="android:textSize">10dip</item> 
-         <item name="android:textColor">#FFB33E3E</item> 
          */
         public static final int CustomTabPageIndicator=0x7f0b005e;
         public static final int DialogWindowTitle_Sherlock=0x7f0b0036;
@@ -1313,15 +1343,12 @@ containing a value of this type.
         public static final int Theme_Sherlock_Light_NoActionBar=0x7f0b0055;
         public static final int Theme_Sherlock_NoActionBar=0x7f0b0054;
         /**  This is our main ActionBarSherlock theme 
-         <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item> 
-         <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item> 
          */
         public static final int Theme_Styled=0x7f0b005b;
         /**  This is our ViewPagerIndicator theme. We inherit from the ABS theme 
          */
         public static final int Theme_VPI=0x7f0b005c;
         /**  More customizations for ABS 
-         <item name="android:textColor">@android:color/darker_gray</item> 
          <item name="android:textSize">17dip</item> 
          */
         public static final int TitleText=0x7f0b005f;
