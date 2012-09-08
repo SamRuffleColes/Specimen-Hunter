@@ -37,8 +37,8 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 	
 	private PhotoPicker mPhotoPicker;	
 	private String mCurrentPhotoPath;
-	private ArrayList<Species> mSpecies;
-	private Capture mCapture;
+	private ArrayList<Species> mSpecies = new ArrayList<Species>();;
+	private Capture mCapture = new Capture();;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +50,6 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 		onConfigurePhotoPicker();
 		onConfigureSpeciesSpinner();
 		onConfigureSaveButton();
-		
-		mCapture = new Capture();
 	}
 
 	private void onConfigureWeightInput() {

@@ -378,7 +378,7 @@ public class SpecimenHunterDatabaseAdapter {
 	
 	private boolean isConvertedToCentigrams() {
 		Cursor c = mDb.query(METADATA_TABLE, new String[] { KEY_METADATA_METADATA },
-				KEY_METADATA_METADATA + "=" + METADATA_CENTIGRAMS_CONVERTED, null, null, null, null); 		
+				KEY_METADATA_METADATA + "='" + METADATA_CENTIGRAMS_CONVERTED + "'", null, null, null, null); 		
 		if(c != null) {
 			c.moveToFirst();
 			return true;
