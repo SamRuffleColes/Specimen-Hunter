@@ -6,9 +6,9 @@
     <ImageView
         android:id="@+id/imageview_image"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="match_parent"
         android:src="@drawable/photo_blank"
-        android:scaleType="centerInside" />
+        android:scaleType="centerCrop" />
         
     <ImageButton
         android:id="@+id/imagebutton_gallery"

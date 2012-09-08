@@ -29,7 +29,7 @@ public class WeightInput extends LinearLayout {
 		this(context, null, 0);
 	}
 	
-	public void setInputType(int inputType) {
+	public void setType(int inputType) {
 		mInputType = inputType;
 		
 		Context context = getContext();
@@ -46,6 +46,7 @@ public class WeightInput extends LinearLayout {
 			default:
 				break;
 		}
+		invalidate();
 	}
 	
 	public int getCentigrams() {
@@ -53,8 +54,7 @@ public class WeightInput extends LinearLayout {
 		MetricWeight metricWeight = new MetricWeight(0);
 		
 		switch (mInputType) {
-			case TYPE_IMPERIAL:
-				
+			case TYPE_IMPERIAL:				
 				EditText poundsEditText = (EditText)findViewById(R.id.edittext_pounds);
 				EditText ouncesEditText = (EditText)findViewById(R.id.edittext_ounces);
 				EditText dramsEditText = (EditText)findViewById(R.id.edittext_drams);
@@ -66,8 +66,7 @@ public class WeightInput extends LinearLayout {
 				metricWeight = new MetricWeight(pounds, ounces, drams);
 				break;
 				
-			case TYPE_METRIC:
-				
+			case TYPE_METRIC:				
 				EditText kgEditText = (EditText)findViewById(R.id.edittext_kilograms);
 				double kilograms = Double.parseDouble(kgEditText.getText().toString());
 				metricWeight = new MetricWeight(kilograms);

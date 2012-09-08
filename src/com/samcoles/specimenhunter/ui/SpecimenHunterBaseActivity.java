@@ -3,6 +3,7 @@ package com.samcoles.specimenhunter.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.StaticLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -14,6 +15,8 @@ import com.deaux.fan.FanView;
 import com.samcoles.specimenhunter.R;
 
 public class SpecimenHunterBaseActivity extends SherlockFragmentActivity {
+	
+	private static final String TAG = "com.samcoles.specimenhunter.ui.SpecimenHunterBaseActivity";
 	
 	private FanView mFan;
 
@@ -56,7 +59,7 @@ public class SpecimenHunterBaseActivity extends SherlockFragmentActivity {
 		public void onClick(View v) {
 			switch(v.getId()) {
 				case R.id.fan_item_new_capture:
-					closeFanAndLaunchActivity(NewCaptureActivity.class, null);
+					closeFanAndLaunchActivity(EditCaptureActivity.class, null);
 					break;
 				case R.id.fan_item_all_captures:
 					//FIXME add bundle to launch w/ "All Captures" showing
@@ -98,5 +101,13 @@ public class SpecimenHunterBaseActivity extends SherlockFragmentActivity {
 		
 		handler.postDelayed(r, 100);
 	}
+
+	@Override
+	public void onBackPressed() {
+		if(mFan.isOpen()) mFan.showMenu();
+		else super.onBackPressed();
+	}
+	
+	
 
 }

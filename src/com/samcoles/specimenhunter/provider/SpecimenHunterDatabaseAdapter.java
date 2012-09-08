@@ -223,8 +223,10 @@ public class SpecimenHunterDatabaseAdapter {
 	}
 	
 	public Cursor fetchAllSpecies() {
-		return mDb.rawQuery("SELECT * FROM " + SPECIES_TABLE 
-				+ " ORDER BY " + KEY_SPECIES_NAME + " COLLATE NOCASE;", null);		
+		Cursor c = mDb.rawQuery("SELECT * FROM " + SPECIES_TABLE 
+				+ " ORDER BY " + KEY_SPECIES_NAME + " COLLATE NOCASE;", null);	
+		c.moveToFirst();
+		return c;
 	}
 	
 	public Cursor fetchSpecies(long id) {
