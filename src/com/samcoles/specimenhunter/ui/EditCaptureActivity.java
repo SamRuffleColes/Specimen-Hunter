@@ -5,14 +5,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,9 +36,8 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 	private static final int ACTION_CODE_GALLERY = 1;
 	
 	private PhotoPicker mPhotoPicker;	
-	private String mCurrentPhotoPath;
-	private ArrayList<Species> mSpecies = new ArrayList<Species>();;
-	private Capture mCapture = new Capture();;
+	private ArrayList<Species> mSpecies = new ArrayList<Species>();
+	private Capture mCapture;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +45,34 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 		
 		setContentView(R.layout.activity_new_capture);
 		
+		mCapture = (Capture)getLastCustomNonConfigurationInstance();
+		if(mCapture == null) mCapture = new Capture();
+		
 		onConfigureWeightInput();	
 		onConfigurePhotoPicker();
 		onConfigureSpeciesSpinner();
 		onConfigureSaveButton();
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		final Handler handler = new Handler();
+		Runnable r = new Runnable() {
+			
+			@Override
+			public void run() {
+
+				if(mCapture.getPhotoPath() != null) {
+					mPhotoPicker.setImage(mCapture.getPhotoPath());
+				} 	
+			}
+		};	
+		handler.post(r);
+	}
+
+
 
 	private void onConfigureWeightInput() {
 		// TODO pull in metric/imperial from settings
@@ -75,12 +97,13 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 			public void onClick(View v) {
 				dispatchTakePhotoIntent();
 			}
-		});
+		});		
 		
-		if (mCurrentPhotoPath != null) {
-			mPhotoPicker.setImage(mCurrentPhotoPath);
+		if(mCapture != null) {
+			if(mCapture.getPhotoPath() != null) {
+				mPhotoPicker.setImage(mCapture.getPhotoPath());
+			}
 		}
-		
 	}
 	
 	private void onConfigureSpeciesSpinner() {
@@ -128,7 +151,7 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 		} catch (IOException e) {
 			Log.e(TAG, "error creating file");
 		}
-	    mCurrentPhotoPath = imageFile.getAbsolutePath();
+	    mCapture.setPhotoPath(imageFile.getAbsolutePath());
 	    takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
 	    
 	    startActivityForResult(takePhotoIntent, ACTION_CODE_CAMERA);
@@ -142,7 +165,7 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 	}
 	
 	private void handleTakePhotoIntentResult(Intent intent) {
-		mPhotoPicker.setImage(mCurrentPhotoPath);		
+		mPhotoPicker.setImage(mCapture.getPhotoPath());		
 	}
 	
 	private void handleGalleryPickerIntentResult(Intent intent) {
@@ -153,10 +176,10 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 		cursor.moveToFirst();
 		
 		int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-		mCurrentPhotoPath = cursor.getString(columnIndex);
+		mCapture.setPhotoPath(cursor.getString(columnIndex));
 		cursor.close();
 		
-		mPhotoPicker.setImage(mCurrentPhotoPath);
+		mPhotoPicker.setImage(mCapture.getPhotoPath());
 	}
 
 	@Override
@@ -199,10 +222,10 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 		dbHelper.close();
 	}
 	
-//	@Override
-//	public Object onRetainCustomNonConfigurationInstance() {
-//		return super.onRetainCustomNonConfigurationInstance();
-//	}
-	
+	@Override
+	public Object onRetainCustomNonConfigurationInstance() {
+		saveDataToModel();
+		return mCapture;
+	}
 	
 }

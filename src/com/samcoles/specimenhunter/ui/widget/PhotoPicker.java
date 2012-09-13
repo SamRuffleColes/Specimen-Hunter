@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -19,7 +23,6 @@ import com.samcoles.specimenhunter.utils.IntentUtils;
 public class PhotoPicker extends RelativeLayout {
 	
 	private ImageButton mGalleryButton, mCameraButton;
-	private ImageView mImageView;
 
 	public PhotoPicker(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -28,7 +31,6 @@ public class PhotoPicker extends RelativeLayout {
 		String state = Environment.getExternalStorageState();
 		if(state.equals(Environment.MEDIA_MOUNTED)) {
 			inflater.inflate(R.layout.photo_picker, this);
-			mImageView = (ImageView)findViewById(R.id.imageview_image);
 			
 			mGalleryButton = (ImageButton)findViewById(R.id.imagebutton_gallery);		
 			mCameraButton = (ImageButton)findViewById(R.id.imagebutton_camera);
@@ -41,8 +43,7 @@ public class PhotoPicker extends RelativeLayout {
 		} else {
 			//can't read & write storage
 			inflater.inflate(R.layout.photo_picker_unavailable, this);
-		}		
-		invalidate();
+		}	
 	}
 
 	public PhotoPicker(Context context, AttributeSet attrs) {
@@ -50,7 +51,7 @@ public class PhotoPicker extends RelativeLayout {
 	}
 
 	public PhotoPicker(Context context) {
-		this(context, null, 0);
+		this(context, null);
 	}
 	
 	public void setCameraButtonOnClickListener(OnClickListener clickListener) {
@@ -61,15 +62,15 @@ public class PhotoPicker extends RelativeLayout {
 		if(mGalleryButton != null) mGalleryButton.setOnClickListener(clickListener);
 	}
 	
-	public void setImage(Bitmap bitmap) {
-		mImageView.setImageBitmap(bitmap);
-	}
-	
 	public void setImage(String imageFilePath) {
-		if(mImageView == null) return;
 		
-		int targetWidth = mImageView.getWidth();
+		ImageView imageView = (ImageView)findViewById(R.id.imageview_image);
+		if(imageView == null) return;
+		
+		int targetWidth = imageView.getWidth();
 	    
+		if(targetWidth <= 0) return;
+		
 	    BitmapFactory.Options bmOptions = new BitmapFactory.Options();
 	    bmOptions.inJustDecodeBounds = true;
 	    BitmapFactory.decodeFile(imageFilePath, bmOptions);
@@ -82,7 +83,7 @@ public class PhotoPicker extends RelativeLayout {
 	    bmOptions.inPurgeable = true;
 	  
 	    Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath, bmOptions);
-	    mImageView.setImageBitmap(bitmap);
+	    imageView.setImageBitmap(bitmap);
 	}
 
 }
