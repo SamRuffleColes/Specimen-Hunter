@@ -1,18 +1,23 @@
 package com.samcoles.specimenhunter.ui;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +43,8 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 	private PhotoPicker mPhotoPicker;	
 	private ArrayList<Species> mSpecies = new ArrayList<Species>();
 	private Capture mCapture;
+	
+	private String mTempImageFilePath;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -149,7 +156,7 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 		} catch (IOException e) {
 			Log.e(TAG, "error creating file");
 		}
-	    mCapture.setPhotoPath(imageFile.getAbsolutePath());
+		mTempImageFilePath = imageFile.getAbsolutePath();
 	    takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
 	    
 	    startActivityForResult(takePhotoIntent, ACTION_CODE_CAMERA);
@@ -157,26 +164,49 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 	
 	private void dispatchGalleryPickerIntent() {
 		Intent galleryPickerIntent = new Intent();
-		galleryPickerIntent.setType("image/*");
-		galleryPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
-		startActivityForResult(Intent.createChooser(galleryPickerIntent, getString(R.string.app_name)), ACTION_CODE_GALLERY);
+	    galleryPickerIntent.setType("image/*");
+	    galleryPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
+	    galleryPickerIntent.addCategory(Intent.CATEGORY_OPENABLE);
+	    startActivityForResult(galleryPickerIntent, ACTION_CODE_GALLERY);
 	}
 	
 	private void handleTakePhotoIntentResult(Intent intent) {
+		mCapture.setPhotoPath(mTempImageFilePath);
 		mPhotoPicker.setImage(mCapture.getPhotoPath());		
 	}
 	
 	private void handleGalleryPickerIntentResult(Intent intent) {
-		Uri imageUri = intent.getData();
-		String[] filePathColumn = { MediaStore.Images.Media.DATA };
 		
-		Cursor cursor = getContentResolver().query(imageUri, filePathColumn, null, null, null);
-		cursor.moveToFirst();
-		
-		int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-		mCapture.setPhotoPath(cursor.getString(columnIndex));
-		cursor.close();
-		
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+	    String imageFileName = timeStamp + "_" + "sh";
+	    File imageFile = null;
+	    InputStream inputStream = null;
+	    OutputStream outputStream = null;
+		try {
+			imageFile = File.createTempFile(imageFileName, ".jpg", getExternalCacheDir());
+			inputStream = getContentResolver().openInputStream(intent.getData());
+			outputStream = new FileOutputStream(imageFile);
+			
+			int read = 0;
+			byte[] bytes = new byte[1024];
+		 
+			while ((read = inputStream.read(bytes)) != -1) {
+				outputStream.write(bytes, 0, read);
+			}
+		} catch (IOException e) {
+			Log.e(TAG, "error creating file");
+		} finally {
+			if(inputStream != null) {
+				try {
+					inputStream.close();
+					outputStream.flush();
+					outputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}		
+		mCapture.setPhotoPath(imageFile.getAbsolutePath());
 		mPhotoPicker.setImage(mCapture.getPhotoPath());
 	}
 
