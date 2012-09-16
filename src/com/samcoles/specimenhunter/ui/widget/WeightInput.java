@@ -59,16 +59,33 @@ public class WeightInput extends LinearLayout {
 				EditText ouncesEditText = (EditText)findViewById(R.id.edittext_ounces);
 				EditText dramsEditText = (EditText)findViewById(R.id.edittext_drams);
 				
-				int pounds = Integer.parseInt(poundsEditText.getText().toString());
-				int ounces = Integer.parseInt(ouncesEditText.getText().toString());
-				int drams = Integer.parseInt(dramsEditText.getText().toString());
-				
+				int pounds, ounces, drams;
+				try {
+					pounds = Integer.parseInt(poundsEditText.getText().toString());
+				} catch (NumberFormatException e) {
+					pounds = 0;
+				}
+				try {
+					ounces = Integer.parseInt(ouncesEditText.getText().toString());
+				} catch(NumberFormatException e) {
+					ounces = 0;
+				}
+				try {
+					drams = Integer.parseInt(dramsEditText.getText().toString());
+				} catch (NumberFormatException e) {
+					drams = 0;
+				}
 				metricWeight = new MetricWeight(pounds, ounces, drams);
 				break;
 				
 			case TYPE_METRIC:				
 				EditText kgEditText = (EditText)findViewById(R.id.edittext_kilograms);
-				double kilograms = Double.parseDouble(kgEditText.getText().toString());
+				double kilograms;
+				try {
+					kilograms = Double.parseDouble(kgEditText.getText().toString());
+				} catch(NumberFormatException e) {
+					kilograms = 0.0;
+				}
 				metricWeight = new MetricWeight(kilograms);
 				break;
 	

@@ -59,11 +59,9 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 		super.onResume();
 		
 		final Handler handler = new Handler();
-		Runnable r = new Runnable() {
-			
+		Runnable r = new Runnable() {			
 			@Override
 			public void run() {
-
 				if(mCapture.getPhotoPath() != null) {
 					mPhotoPicker.setImage(mCapture.getPhotoPath());
 				} 	

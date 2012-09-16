@@ -77,6 +77,7 @@ public class PhotoPicker extends RelativeLayout {
 	    int imageWidth = bmOptions.outWidth;
 	    
 	    int scaleFactor = imageWidth / targetWidth;
+	    if(scaleFactor < 3) scaleFactor = 3;
 	    
 	    bmOptions.inJustDecodeBounds = false;
 	    bmOptions.inSampleSize = scaleFactor;
