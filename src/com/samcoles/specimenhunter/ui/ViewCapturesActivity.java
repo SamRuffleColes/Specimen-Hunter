@@ -1,4 +1,5 @@
 package com.samcoles.specimenhunter.ui;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,7 +26,7 @@ public class ViewCapturesActivity extends SpecimenHunterBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
 		
-		setContentView(R.layout.activity_tabs);
+		setContent(R.layout.activity_tabs);
 		
 		mAdapter = new TabsAdapter(getSupportFragmentManager());
 		

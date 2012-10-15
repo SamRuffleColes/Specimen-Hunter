@@ -1,113 +1,140 @@
 package com.samcoles.specimenhunter.ui;
 
+import net.simonvt.widget.MenuDrawer;
+import net.simonvt.widget.MenuDrawerManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.StaticLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
-import com.deaux.fan.FanView;
 import com.samcoles.specimenhunter.R;
+import com.samcoles.specimenhunter.ui.widget.MenuScrollView;
 
 public class SpecimenHunterBaseActivity extends SherlockFragmentActivity {
 	
 	private static final String TAG = "com.samcoles.specimenhunter.ui.SpecimenHunterBaseActivity";
-	
-	private FanView mFan;
+	private static final String STATE_MENUDRAWER = "com.samcoles.specimenhunter.ui.SpecimenHunterBaseActivity.menuDrawer";
+    private static final String STATE_ACTIVE_VIEW_ID = "com.samcoles.specimenhunter.ui.SpecimenHunterBaseActivity.activeViewId";
+
+    private MenuDrawerManager mMenuDrawer;
+    private int mActiveViewId;
+    
+    @Override
+	protected void onCreate(Bundle inState) {
+		super.onCreate(inState);
+        if (inState != null) {
+            mActiveViewId = inState.getInt(STATE_ACTIVE_VIEW_ID);
+        }
+
+        mMenuDrawer = new MenuDrawerManager(this, MenuDrawer.MENU_DRAG_WINDOW);
+        mMenuDrawer.setMenuView(R.layout.menu);
+
+        MenuScrollView msv = (MenuScrollView) mMenuDrawer.getMenuView();
+        msv.setOnScrollChangedListener(new MenuScrollView.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                mMenuDrawer.getMenuDrawer().invalidate();
+            }
+        });
+        
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        
+    	LinearLayout newCaptureMenuItem = (LinearLayout)findViewById(R.id.fan_item_new_capture);
+    	LinearLayout allCapturesMenuItem = (LinearLayout)findViewById(R.id.fan_item_all_captures);
+    	LinearLayout personalBestsMenuItem = (LinearLayout)findViewById(R.id.fan_item_personal_bests);
+    	LinearLayout targetsMenuItem = (LinearLayout)findViewById(R.id.fan_item_targets);
+    	LinearLayout speciesMenuItem = (LinearLayout)findViewById(R.id.fan_item_species);
+    	
+        MenuClickListener menuClickListener = new MenuClickListener();
+        newCaptureMenuItem.setOnClickListener(menuClickListener);
+        allCapturesMenuItem.setOnClickListener(menuClickListener);
+        personalBestsMenuItem.setOnClickListener(menuClickListener);
+        targetsMenuItem.setOnClickListener(menuClickListener);
+        speciesMenuItem.setOnClickListener(menuClickListener);       
+        
+	}
+    
+    @Override
+	public final void setContentView(View view, LayoutParams params) {
+		super.setContentView(view, params);
+	}
 
 	@Override
-	public void setContentView(int layoutResId) {
-		super.setContentView(R.layout.activity_base);
-		mFan = (FanView)findViewById(R.id.fan_view);
-		mFan.setViews(layoutResId, R.layout.fan);	
-		
-		LinearLayout newCaptureFanItem = (LinearLayout)mFan.findViewById(R.id.fan_item_new_capture);
-		LinearLayout allCapturesFanItem = (LinearLayout)mFan.findViewById(R.id.fan_item_all_captures);
-		LinearLayout personalBestsFanItem = (LinearLayout)mFan.findViewById(R.id.fan_item_personal_bests);
-		LinearLayout targetsFanItem = (LinearLayout)mFan.findViewById(R.id.fan_item_targets);
-		LinearLayout speciesFanItem = (LinearLayout)mFan.findViewById(R.id.fan_item_species);
-		
-		FanClickListener fanClickListener = new FanClickListener();
-		newCaptureFanItem.setOnClickListener(fanClickListener);
-		allCapturesFanItem.setOnClickListener(fanClickListener);
-		personalBestsFanItem.setOnClickListener(fanClickListener);
-		targetsFanItem.setOnClickListener(fanClickListener);
-		speciesFanItem.setOnClickListener(fanClickListener);		
-				
-		ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);	
+	public final void setContentView(View view) {
+		super.setContentView(view);
 	}
+
+	public void setContent(int layoutResId) {
+    	mMenuDrawer.setContentView(layoutResId);
+    }
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()) {
-			case android.R.id.home:
-				mFan.showMenu();
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
-	
-	private class FanClickListener implements OnClickListener {
+    public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mMenuDrawer.toggleMenu();
+                return true;
+            default:
+            	return super.onOptionsItemSelected(item);
+        }       
+    }
+    
+    @Override
+    protected void onRestoreInstanceState(Bundle inState) {
+        super.onRestoreInstanceState(inState);
+        mMenuDrawer.onRestoreDrawerState(inState.getParcelable(STATE_MENUDRAWER));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(STATE_MENUDRAWER, mMenuDrawer.onSaveDrawerState());
+        outState.putInt(STATE_ACTIVE_VIEW_ID, mActiveViewId);
+    }
+    
+    @Override
+    public void onBackPressed() {
+        final int drawerState = mMenuDrawer.getDrawerState();
+        if (drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING) {
+            mMenuDrawer.closeMenu();
+            return;
+        }
+
+        super.onBackPressed();
+    }
+    
+    private class MenuClickListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
+			Intent launchIntent = null;			
 			switch(v.getId()) {
 				case R.id.fan_item_new_capture:
-					closeFanAndLaunchActivity(EditCaptureActivity.class, null);
+					mMenuDrawer.closeMenu();
+					launchIntent = new Intent(SpecimenHunterBaseActivity.this, EditCaptureActivity.class);
 					break;
 				case R.id.fan_item_all_captures:
-					//FIXME add bundle to launch w/ "All Captures" showing
-					closeFanAndLaunchActivity(ViewCapturesActivity.class, null);
+					//FIXME add bundle for all captures to show
+					launchIntent = new Intent(SpecimenHunterBaseActivity.this, ViewCapturesActivity.class);
 					break;
 				case R.id.fan_item_personal_bests:
-					//FIXME add bundle to launch w/ "Personal Bests" tab showing
-					closeFanAndLaunchActivity(ViewCapturesActivity.class, null);
+					//FIXME add bundle for personal bests to show
+					launchIntent = new Intent(SpecimenHunterBaseActivity.this, ViewCapturesActivity.class);
 					break;
 				case R.id.fan_item_targets:
 					break;
 				case R.id.fan_item_species:
 					break;
 				default:
-					break;
+					break;			
 			}
-		}		
-	}
-	
-	private void closeFanAndLaunchActivity(Class<?> activityClass, Bundle extras) {		
-		
-		if(mFan.isOpen()) mFan.showMenu();
-		
-		final Intent i = new Intent(this, activityClass);
-		if(extras != null) i.putExtras(extras);
-		
-		final Handler handler = new Handler();
-		
-		final Runnable r = new Runnable() {			
-			@Override
-			public void run() {				
-				if(mFan.isClosed()) {
-					startActivity(i);
-				} else {
-					handler.postDelayed(this, 25);
-				}
+			
+			if(launchIntent != null) {
+				startActivity(launchIntent);
 			}
-		};
-		
-		handler.postDelayed(r, 100);
-	}
-
-	@Override
-	public void onBackPressed() {
-		if(mFan.isOpen()) mFan.showMenu();
-		else super.onBackPressed();
-	}
-	
-	
+		}    	
+    }
 
 }
