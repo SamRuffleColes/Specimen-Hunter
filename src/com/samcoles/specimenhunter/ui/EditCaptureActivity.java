@@ -1,6 +1,7 @@
 package com.samcoles.specimenhunter.ui;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,13 +12,11 @@ import java.util.Date;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -154,7 +153,7 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 		try {
 			imageFile = File.createTempFile(imageFileName, ".jpg", getExternalCacheDir());
 		} catch (IOException e) {
-			Log.e(TAG, "error creating file");
+			Log.e(TAG, "error creating temp camera file");
 		}
 		mTempImageFilePath = imageFile.getAbsolutePath();
 	    takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
@@ -194,7 +193,7 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 				outputStream.write(bytes, 0, read);
 			}
 		} catch (IOException e) {
-			Log.e(TAG, "error creating file");
+			Log.e(TAG, "error creating temp gallery file");
 		} finally {
 			if(inputStream != null) {
 				try {
@@ -202,7 +201,7 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 					outputStream.flush();
 					outputStream.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					Log.e(TAG, "error closing input/output streams writing temp gallery file");
 				}
 			}
 		}		
@@ -242,12 +241,45 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 	private void saveDataToDatabase() {
 		saveDataToModel();
 		
-		//TODO save file to permanent location
-		String photoFilePath = null;
+		//TODO launch progress dialog "saving"
 		
-		SpecimenHunterDatabaseAdapter dbHelper = new SpecimenHunterDatabaseAdapter(this);
-		dbHelper.createCapture(mCapture.getTitle(), mCapture.getSpecies(), photoFilePath, mCapture.getCentigrams(), mCapture.getComment());
+		File tempPhotoFile = new File(mCapture.getPhotoPath());		
+		File permanentImageFile = null; 
+		if(tempPhotoFile != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+			InputStream inputStream = null;
+		    OutputStream outputStream = null;	    
+		    try {
+		    	String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+			    String imageFileName = timeStamp + "_" + "sh.jpg";
+		    	permanentImageFile = new File(getExternalFilesDir(null), imageFileName);	
+		    	
+		    	inputStream = new FileInputStream(tempPhotoFile);
+		    	outputStream = new FileOutputStream(permanentImageFile);
+		    	
+		    	int read = 0;
+				byte[] bytes = new byte[1024];
+			 
+				while ((read = inputStream.read(bytes)) != -1) {
+					outputStream.write(bytes, 0, read);
+				}
+		    } catch(IOException e) {
+		    	Log.e(TAG, "error writing permanent file");
+		    } finally {
+		    	try {
+		    		inputStream.close();
+		    		outputStream.flush();
+		    		outputStream.close();
+		    		tempPhotoFile.delete();
+		    	} catch(IOException e) {
+		    		Log.e(TAG, "error closing input/output streams while writing permanent file");
+		    	}
+		    }
+		}
+		
+		SpecimenHunterDatabaseAdapter dbHelper = new SpecimenHunterDatabaseAdapter(this).open();	
+		dbHelper.createCapture(mCapture.getTitle(), mCapture.getSpecies(), permanentImageFile.getAbsolutePath(), mCapture.getCentigrams(), mCapture.getComment());
 		dbHelper.close();
+		finish();
 	}
 	
 	@Override

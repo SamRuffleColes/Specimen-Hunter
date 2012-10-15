@@ -1170,7 +1170,7 @@ containing a value of this type.
         public static final int homeAsUp=0x7f060009;
         public static final int imagebutton_camera=0x7f060043;
         public static final int imagebutton_gallery=0x7f060042;
-        public static final int imageview_capture_thumbnail=0x7f06003f;
+        public static final int imageview_capture_thumbnail=0x7f060040;
         public static final int imageview_image=0x7f060041;
         public static final int indicator=0x7f060031;
         public static final int layout=0x7f060038;
@@ -1184,7 +1184,7 @@ containing a value of this type.
         public static final int showTitle=0x7f06000a;
         public static final int spinner_species=0x7f06002c;
         public static final int tabMode=0x7f060006;
-        public static final int textview_capture_comment=0x7f060040;
+        public static final int textview_capture_comment=0x7f06003f;
         public static final int textview_capture_species_and_weight=0x7f06003e;
         public static final int textview_capture_title=0x7f06003d;
         public static final int textview_drams=0x7f060048;

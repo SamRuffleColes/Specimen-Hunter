@@ -160,8 +160,8 @@ public class SpecimenHunterDatabaseAdapter {
 		if(comment != null) {
 			capture.put(KEY_CAPTURES_COMMENT, comment);
 		}
-		
-		return mDb.insert(CAPTURES_TABLE, null, capture) > 0;
+		boolean result = mDb.insert(CAPTURES_TABLE, null, capture) > 0;
+		return result;
 	}
 	
 	public long fetchLastInsertedId() {
@@ -382,7 +382,7 @@ public class SpecimenHunterDatabaseAdapter {
 		if(c != null) {
 			c.moveToFirst();
 			return true;
-		}		
+		} 
 		return false;
 	}
 	

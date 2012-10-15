@@ -1,22 +1,32 @@
 package com.samcoles.specimenhunter.ui.adapters;
 
-import com.samcoles.specimenhunter.provider.SpecimenHunterDatabaseAdapter;
-
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.samcoles.specimenhunter.R;
+import com.samcoles.specimenhunter.provider.ImperialWeight;
+import com.samcoles.specimenhunter.provider.SpecimenHunterDatabaseAdapter;
+import com.samcoles.specimenhunter.ui.SDImageLoader;
 
 public class CaptureCursorAdapter extends SimpleCursorAdapter {
 	
 	private int mLayout;
+	private Context mContext;	
+	private SDImageLoader mImageLoader;
 
-	public CaptureCursorAdapter(Context context, int layout, Cursor c,
-			String[] from, int[] to, int flags) {
-		super(context, layout, c, from, to, flags);
+	public CaptureCursorAdapter(Context context, int layout, Cursor c) {
+		
+		super(context, layout, c, new String[] {}, new int[] {}, 0);
 		mLayout = layout;
+		mContext = context;
+		mImageLoader = new SDImageLoader();
 	}
 
 	@Override
@@ -31,9 +41,31 @@ public class CaptureCursorAdapter extends SimpleCursorAdapter {
 		String title = c.getString(c.getColumnIndexOrThrow(SpecimenHunterDatabaseAdapter.KEY_CAPTURES_TITLE));
 		int centigrams = c.getInt(c.getColumnIndexOrThrow(SpecimenHunterDatabaseAdapter.KEY_CAPTURES_CENTIGRAMS));
 		String photoFilePath = c.getString((c.getColumnIndexOrThrow(SpecimenHunterDatabaseAdapter.KEY_CAPTURES_PHOTO)));
+		String comment = c.getString(c.getColumnIndexOrThrow(SpecimenHunterDatabaseAdapter.KEY_CAPTURES_COMMENT));
+		int speciesId = c.getInt(c.getColumnIndexOrThrow(SpecimenHunterDatabaseAdapter.KEY_CAPTURES_SPECIES));
 		
-		//TODO finish....
-				
+		//FIXME reimplement so that species is returned as string from fetchAllCaptures
+		//making the below db call unneccessary 
+		SpecimenHunterDatabaseAdapter dbHelper = new SpecimenHunterDatabaseAdapter(context).open();
+		String species = dbHelper.fetchSpeciesName(speciesId);
+		dbHelper.close();
+		
+		ImperialWeight imperialWeight = new ImperialWeight(centigrams);
+		
+		Resources resources = mContext.getResources();
+		String speciesAndWeight = String.format(resources.getString(R.string.species_and_weight_imperial), species, imperialWeight.getPounds(), imperialWeight.getOunces(), imperialWeight.getDrams());
+		
+		
+		
+		TextView titleTextView = (TextView)v.findViewById(R.id.textview_capture_title);
+		TextView commentTextView = (TextView)v.findViewById(R.id.textview_capture_comment);
+		TextView speciesAndWeightTextView = (TextView)v.findViewById(R.id.textview_capture_species_and_weight);
+		ImageView photoImageView = (ImageView)v.findViewById(R.id.imageview_capture_thumbnail);
+
+		titleTextView.setText(title);
+		commentTextView.setText(comment);
+		speciesAndWeightTextView.setText(speciesAndWeight);
+		mImageLoader.load(mContext, photoFilePath, photoImageView);
 	}
 	
 
