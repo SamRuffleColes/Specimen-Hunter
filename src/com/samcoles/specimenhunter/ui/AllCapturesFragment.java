@@ -26,7 +26,7 @@ public class AllCapturesFragment extends SherlockListFragment {
 	public void onResume() {
 		super.onResume();
 		Cursor c = mDbHelper.fetchAllCaptures(SpecimenHunterDatabaseAdapter.SORT_NONE);
-		setListAdapter(new CaptureCursorAdapter(mContext, R.layout.li_capture, c));
+		setListAdapter(new CaptureCursorAdapter(getActivity(), R.layout.li_capture, c));
 	}
 	
 	@Override

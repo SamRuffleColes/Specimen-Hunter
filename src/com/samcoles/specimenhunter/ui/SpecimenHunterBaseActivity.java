@@ -109,10 +109,11 @@ public class SpecimenHunterBaseActivity extends SherlockFragmentActivity {
     private class MenuClickListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
+			mMenuDrawer.closeMenu();
+			
 			Intent launchIntent = null;			
 			switch(v.getId()) {
 				case R.id.fan_item_new_capture:
-					mMenuDrawer.closeMenu();
 					launchIntent = new Intent(SpecimenHunterBaseActivity.this, EditCaptureActivity.class);
 					break;
 				case R.id.fan_item_all_captures:
