@@ -117,12 +117,12 @@ public class SpecimenHunterBaseActivity extends SherlockFragmentActivity {
 					launchIntent = new Intent(SpecimenHunterBaseActivity.this, EditCaptureActivity.class);
 					break;
 				case R.id.fan_item_all_captures:
-					//FIXME add bundle for all captures to show
 					launchIntent = new Intent(SpecimenHunterBaseActivity.this, ViewCapturesActivity.class);
+					launchIntent.putExtra(ViewCapturesActivity.INITIAL_TAB, ViewCapturesActivity.ALL_CAPTURES_TAB);
 					break;
 				case R.id.fan_item_personal_bests:
-					//FIXME add bundle for personal bests to show
 					launchIntent = new Intent(SpecimenHunterBaseActivity.this, ViewCapturesActivity.class);
+					launchIntent.putExtra(ViewCapturesActivity.INITIAL_TAB, ViewCapturesActivity.PERSONAL_BESTS_TAB);
 					break;
 				case R.id.fan_item_targets:
 					break;
@@ -133,6 +133,7 @@ public class SpecimenHunterBaseActivity extends SherlockFragmentActivity {
 			}
 			
 			if(launchIntent != null) {
+				launchIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(launchIntent);
 			}
 		}    	

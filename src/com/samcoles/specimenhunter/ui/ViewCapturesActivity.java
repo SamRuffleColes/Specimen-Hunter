@@ -23,8 +23,8 @@ public class ViewCapturesActivity extends SpecimenHunterBaseActivity {
 	public static final int PERSONAL_BESTS_TAB = 1;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);		
+	protected void onCreate(Bundle inState) {
+		super.onCreate(inState);		
 		
 		setContent(R.layout.activity_tabs);
 		
@@ -35,6 +35,12 @@ public class ViewCapturesActivity extends SpecimenHunterBaseActivity {
         
         mIndicator = (TabPageIndicator)findViewById(R.id.indicator);
         mIndicator.setViewPager(mPager);
+        
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+        	int launchTab = extras.getInt(INITIAL_TAB);
+        	mPager.setCurrentItem(launchTab);
+        }
         
 	}
 	
