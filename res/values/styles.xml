@@ -3,6 +3,7 @@
     
     <style name="Theme.SpecimenHunter" parent="Theme.VPI">
         <item name="menuDrawerStyle">@style/MenuDrawerStyle</item>        
+        <item name="android:textColor">@color/text_color</item>
     </style>
     
 <!-- This is our main ActionBarSherlock theme -->

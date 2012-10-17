@@ -1,5 +1,6 @@
 package com.samcoles.specimenhunter.ui;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -32,7 +33,7 @@ public class PhotoViewerDialogFragment extends DialogFragment {
 		super.onCreate(inState);
 		mFilePath = getArguments().getString(FILE_PATH);
 		mImageLoader = new SDImageLoader();
-		setStyle(STYLE_NO_FRAME, 0);
+		setStyle(STYLE_NO_TITLE, android.R.style.Theme_DeviceDefault_DialogWhenLarge_NoActionBar);		
 	}
 	
 	@Override
@@ -44,8 +45,11 @@ public class PhotoViewerDialogFragment extends DialogFragment {
 			public void onClick(View v) {
 				PhotoViewerDialogFragment.this.dismiss();
 			}
-		});			
+		});
 		mImageLoader.load(getActivity(), mFilePath, photoImageView);
+		
+		getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0));
+		
 		return v;
 	}
 	

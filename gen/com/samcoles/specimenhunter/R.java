@@ -1037,10 +1037,10 @@ containing a value of this type.
         public static final int abs__bright_foreground_inverse_holo_dark=0x7f050018;
         public static final int abs__bright_foreground_inverse_holo_light=0x7f050019;
         public static final int abs__holo_blue_light=0x7f05001a;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f05001d;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f05001e;
-        public static final int abs__primary_text_holo_dark=0x7f05001f;
-        public static final int abs__primary_text_holo_light=0x7f050020;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f05001f;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f050020;
+        public static final int abs__primary_text_holo_dark=0x7f050021;
+        public static final int abs__primary_text_holo_light=0x7f050022;
         public static final int default_circle_indicator_fill_color=0x7f050009;
         public static final int default_circle_indicator_page_color=0x7f05000a;
         public static final int default_circle_indicator_stroke_color=0x7f05000b;
@@ -1050,11 +1050,13 @@ containing a value of this type.
         public static final int default_title_indicator_selected_color=0x7f05000f;
         public static final int default_title_indicator_text_color=0x7f050010;
         public static final int default_underline_indicator_selected_color=0x7f050011;
-        public static final int error=0x7f05001b;
+        public static final int error=0x7f05001c;
+        public static final int image_dialog_border=0x7f05001d;
         /**  The default background of the menu. 
          */
         public static final int md__defaultBackground=0x7f050000;
-        public static final int md__transparent=0x7f05001c;
+        public static final int md__transparent=0x7f05001e;
+        public static final int text_color=0x7f05001b;
         public static final int vpi__background_holo_dark=0x7f050001;
         public static final int vpi__background_holo_light=0x7f050002;
         public static final int vpi__bright_foreground_disabled_holo_dark=0x7f050005;
@@ -1063,8 +1065,8 @@ containing a value of this type.
         public static final int vpi__bright_foreground_holo_light=0x7f050004;
         public static final int vpi__bright_foreground_inverse_holo_dark=0x7f050007;
         public static final int vpi__bright_foreground_inverse_holo_light=0x7f050008;
-        public static final int vpi__dark_theme=0x7f050021;
-        public static final int vpi__light_theme=0x7f050022;
+        public static final int vpi__dark_theme=0x7f050023;
+        public static final int vpi__light_theme=0x7f050024;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1382,22 +1384,22 @@ containing a value of this type.
         public static final int disableHome=0x7f060012;
         public static final int edit_query=0x7f060030;
         public static final int edittext_comment=0x7f060040;
-        public static final int edittext_drams=0x7f060057;
-        public static final int edittext_kilograms=0x7f060059;
-        public static final int edittext_ounces=0x7f060055;
-        public static final int edittext_pounds=0x7f060053;
+        public static final int edittext_drams=0x7f060058;
+        public static final int edittext_kilograms=0x7f06005a;
+        public static final int edittext_ounces=0x7f060056;
+        public static final int edittext_pounds=0x7f060054;
         public static final int edittext_title=0x7f06003c;
-        public static final int fan_item_all_captures=0x7f06004b;
-        public static final int fan_item_new_capture=0x7f06004a;
-        public static final int fan_item_personal_bests=0x7f06004c;
-        public static final int fan_item_species=0x7f06004e;
-        public static final int fan_item_targets=0x7f06004d;
+        public static final int fan_item_all_captures=0x7f06004c;
+        public static final int fan_item_new_capture=0x7f06004b;
+        public static final int fan_item_personal_bests=0x7f06004d;
+        public static final int fan_item_species=0x7f06004f;
+        public static final int fan_item_targets=0x7f06004e;
         public static final int homeAsUp=0x7f06000f;
-        public static final int imagebutton_camera=0x7f060051;
-        public static final int imagebutton_gallery=0x7f060050;
-        public static final int imageview_capture_thumbnail=0x7f060048;
-        public static final int imageview_image=0x7f06004f;
-        public static final int imageview_photo=0x7f060044;
+        public static final int imagebutton_camera=0x7f060052;
+        public static final int imagebutton_gallery=0x7f060051;
+        public static final int imageview_capture_thumbnail=0x7f060049;
+        public static final int imageview_image=0x7f060050;
+        public static final int imageview_photo=0x7f060045;
         public static final int indicator=0x7f060042;
         public static final int listMode=0x7f06000b;
         /**  Used with View#setTag(int) to specify a position for the active view. 
@@ -1416,19 +1418,20 @@ containing a value of this type.
         public static final int normal=0x7f06000a;
         public static final int pager=0x7f060043;
         public static final int photo_picker=0x7f06003f;
-        public static final int scrollView=0x7f060049;
+        public static final int root=0x7f060044;
+        public static final int scrollView=0x7f06004a;
         public static final int showCustom=0x7f060011;
         public static final int showHome=0x7f06000e;
         public static final int showTitle=0x7f060010;
         public static final int spinner_species=0x7f06003d;
         public static final int tabMode=0x7f06000c;
-        public static final int textview_capture_comment=0x7f060047;
-        public static final int textview_capture_species_and_weight=0x7f060046;
-        public static final int textview_capture_title=0x7f060045;
-        public static final int textview_drams=0x7f060056;
-        public static final int textview_kilograms=0x7f060058;
-        public static final int textview_ounces=0x7f060054;
-        public static final int textview_pounds=0x7f060052;
+        public static final int textview_capture_comment=0x7f060048;
+        public static final int textview_capture_species_and_weight=0x7f060047;
+        public static final int textview_capture_title=0x7f060046;
+        public static final int textview_drams=0x7f060057;
+        public static final int textview_kilograms=0x7f060059;
+        public static final int textview_ounces=0x7f060055;
+        public static final int textview_pounds=0x7f060053;
         public static final int top=0x7f060008;
         public static final int triangle=0x7f060005;
         public static final int underline=0x7f060006;

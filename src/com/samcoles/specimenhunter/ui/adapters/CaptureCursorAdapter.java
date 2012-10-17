@@ -71,7 +71,6 @@ public class CaptureCursorAdapter extends SimpleCursorAdapter {
 		photoImageView.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				//TODO launch PhotoViewerDialogFragment
 				FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
 				Fragment previous = mActivity.getSupportFragmentManager().findFragmentByTag("dialog");
 				if(previous != null) ft.remove(previous);
