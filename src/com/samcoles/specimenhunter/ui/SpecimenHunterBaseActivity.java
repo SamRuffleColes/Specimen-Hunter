@@ -13,7 +13,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.samcoles.specimenhunter.R;
 import com.samcoles.specimenhunter.ui.widget.MenuScrollView;
 
-public class SpecimenHunterBaseActivity extends SherlockFragmentActivity {
+public abstract class SpecimenHunterBaseActivity extends SherlockFragmentActivity {
 	
 	private static final String TAG = "com.samcoles.specimenhunter.ui.SpecimenHunterBaseActivity";
 	private static final String STATE_MENUDRAWER = "com.samcoles.specimenhunter.ui.SpecimenHunterBaseActivity.menuDrawer";

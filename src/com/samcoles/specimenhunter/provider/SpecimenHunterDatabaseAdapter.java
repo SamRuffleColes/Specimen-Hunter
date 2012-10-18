@@ -55,6 +55,10 @@ public class SpecimenHunterDatabaseAdapter {
 	private static final String METADATA_TABLE = "dbmetadata";
 	private static final int DATABASE_VERSION = 6;
 	
+	public static final int SORT_TITLE = 0;
+	public static final int SORT_SPECIES = 1;
+	public static final int SORT_WEIGHT = 2;
+	
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
 	private final Context mContext;
@@ -181,27 +185,20 @@ public class SpecimenHunterDatabaseAdapter {
 		}			
 		return mDb.update(CAPTURES_TABLE, capture, KEY_CAPTURES_ROWID + "=" + id, null) > 0;
 	}
-	
-	public static final int SORT_NONE = 0;
-	public static final int SORT_TITLE = 1;
-	public static final int SORT_SPECIES = 2;
-	public static final int SORT_WEIGHT = 3;
-	
+		
 	public Cursor fetchAllCaptures(int sortCode) {
 		switch (sortCode) {
-		case SORT_TITLE:
-			return mDb.rawQuery("SELECT * FROM " + CAPTURES_TABLE 
-							+ " ORDER BY " + KEY_CAPTURES_TITLE + " COLLATE NOCASE;", null);
-		case SORT_SPECIES:
-			return mDb.rawQuery("SELECT * FROM " + CAPTURES_TABLE
-							+ " ORDER BY " + KEY_CAPTURES_SPECIES + ";" , null);
-		case SORT_WEIGHT:
-			return mDb.rawQuery("SELECT * FROM " + CAPTURES_TABLE
-							+ " ORDER BY " + KEY_CAPTURES_CENTIGRAMS + " DESC;", null);
-		case SORT_NONE:
-		default:
-			return mDb.query(CAPTURES_TABLE, new String[] { KEY_CAPTURES_ROWID, KEY_CAPTURES_TITLE, KEY_CAPTURES_SPECIES, KEY_CAPTURES_PHOTO, KEY_CAPTURES_CENTIGRAMS, KEY_CAPTURES_COMMENT },
-					null, null, null, null, null);
+			case SORT_TITLE:
+				return mDb.rawQuery("SELECT * FROM " + CAPTURES_TABLE 
+								+ " ORDER BY " + KEY_CAPTURES_TITLE + " COLLATE NOCASE;", null);
+			case SORT_SPECIES:
+				return mDb.rawQuery("SELECT * FROM " + CAPTURES_TABLE
+								+ " ORDER BY " + KEY_CAPTURES_SPECIES + " COLLATE NOCASE;" , null);
+			case SORT_WEIGHT:
+				return mDb.rawQuery("SELECT * FROM " + CAPTURES_TABLE
+								+ " ORDER BY " + KEY_CAPTURES_CENTIGRAMS + " DESC;", null);
+			default:
+				return null;
 		}
 	}
 	
@@ -331,20 +328,39 @@ public class SpecimenHunterDatabaseAdapter {
 		return c;
 	}
 	
-	public Cursor fetchAllPBs() {	
-		String sql = "SELECT * " +
-					"FROM fishcaptures AS C1 " +
-					"WHERE centigrams = " +
-					"(SELECT MAX(centigrams) " +
-					"FROM fishcaptures AS C2 " +
-					"WHERE C2.species = c1.species) " +
-					"ORDER BY centigrams DESC;";
-		
-		Cursor c = mDb.rawQuery(sql, null);
-		if(c != null) {
-			c.moveToFirst();
+	public Cursor fetchAllPBs(int sortCode) {
+		String sql = null;
+		switch (sortCode) {
+			case SORT_TITLE:
+				sql = 	"SELECT * " +
+						"FROM fishcaptures AS C1 " +
+						"WHERE centigrams = " +
+						"(SELECT MAX(centigrams) " +
+						"FROM fishcaptures AS C2 " +
+						"WHERE C2.species = c1.species) " +
+						"ORDER BY " + KEY_CAPTURES_TITLE + " COLLATE NOCASE;";
+				return mDb.rawQuery(sql, null);
+			case SORT_SPECIES:
+				sql = 	"SELECT * " +
+						"FROM fishcaptures AS C1 " +
+						"WHERE centigrams = " +
+						"(SELECT MAX(centigrams) " +
+						"FROM fishcaptures AS C2 " +
+						"WHERE C2.species = c1.species) " +
+						"ORDER BY " + KEY_CAPTURES_SPECIES + " COLLATE NOCASE;";
+				return mDb.rawQuery(sql, null);
+			case SORT_WEIGHT:
+				sql = 	"SELECT * " +
+						"FROM fishcaptures AS C1 " +
+						"WHERE centigrams = " +
+						"(SELECT MAX(centigrams) " +
+						"FROM fishcaptures AS C2 " +
+						"WHERE C2.species = c1.species) " +
+						"ORDER BY " + KEY_CAPTURES_CENTIGRAMS + " DESC;";
+				return mDb.rawQuery(sql, null);
+			default:
+				return null;
 		}
-		return c;
 	}
 
 	
