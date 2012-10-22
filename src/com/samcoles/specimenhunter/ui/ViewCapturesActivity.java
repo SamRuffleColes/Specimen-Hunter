@@ -57,18 +57,16 @@ public class ViewCapturesActivity extends SpecimenHunterBaseActivity implements 
 	
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {		
+					
 		switch(itemPosition) {
 			case 0:
-				Toast.makeText(this, "sort title", Toast.LENGTH_SHORT).show();
-				setListSortMethod(SpecimenHunterDatabaseAdapter.SORT_TITLE);
+				mAdapter.setFragmentListSortMethod(SpecimenHunterDatabaseAdapter.SORT_TITLE);
 				break;
 			case 1:
-				Toast.makeText(this, "sort species", Toast.LENGTH_SHORT).show();
-				setListSortMethod(SpecimenHunterDatabaseAdapter.SORT_SPECIES);
+				mAdapter.setFragmentListSortMethod(SpecimenHunterDatabaseAdapter.SORT_SPECIES);
 				break;
 			case 2:
-				Toast.makeText(this, "sort weight", Toast.LENGTH_SHORT).show();
-				setListSortMethod(SpecimenHunterDatabaseAdapter.SORT_WEIGHT);
+				mAdapter.setFragmentListSortMethod(SpecimenHunterDatabaseAdapter.SORT_WEIGHT);
 				break;
 			default:
 				return false;
@@ -77,7 +75,7 @@ public class ViewCapturesActivity extends SpecimenHunterBaseActivity implements 
 	}
 	
 	class TabsAdapter extends FragmentPagerAdapter {
-		
+				
 		public TabsAdapter(FragmentManager fm) {
 			super(fm);
 		}
@@ -86,9 +84,9 @@ public class ViewCapturesActivity extends SpecimenHunterBaseActivity implements 
 		public Fragment getItem(int position) {
 			switch(position) {
 			case ALL_CAPTURES_TAB:
-				return new AllCapturesFragment();
+				return AllCapturesFragment.getInstance();
 			case PERSONAL_BESTS_TAB:
-				return new PersonalBestsFragment();
+				return PersonalBestsFragment.getInstance();
 			default:
 				return null;
 			}
@@ -103,8 +101,12 @@ public class ViewCapturesActivity extends SpecimenHunterBaseActivity implements 
         public CharSequence getPageTitle(int position) {
 			return ViewCapturesActivity.FRAGMENT_TITLES[position];
         }
-
-	}
-	
-	
+		
+		public void setFragmentListSortMethod(int sortMethod) {
+			for (int i = 0; i < getCount(); i++) {
+				SpecimenHunterBaseListFragment fragment = (SpecimenHunterBaseListFragment) getItem(i);
+				if(fragment != null) fragment.setListSortMethod(sortMethod);
+			}					
+		}
+	}	
 }

@@ -61,7 +61,9 @@ public class SpecimenHunterDatabaseAdapter {
 	
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDb;
-	private final Context mContext;
+//	private final Context mContext;
+	
+	private static SpecimenHunterDatabaseAdapter mInstance;
 	
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 		
@@ -69,7 +71,7 @@ public class SpecimenHunterDatabaseAdapter {
 
 		public DatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-			mContext = context;
+			mContext = context.getApplicationContext();
 		}
 
 		@Override
@@ -134,26 +136,40 @@ public class SpecimenHunterDatabaseAdapter {
 
 	}
 	
-	public SpecimenHunterDatabaseAdapter(Context context) {
-		mContext = context;
-	}
+//	public SpecimenHunterDatabaseAdapter(Context context) {
+//		mContext = context.getApplicationContext();
+//	}
+//	
+//	public SpecimenHunterDatabaseAdapter open() throws SQLException {
+//		mDbHelper = new DatabaseHelper(mContext);
+//		mDb = mDbHelper.getWritableDatabase();
+//		
+//		
+//		//database version 6 introduces centigrams column to captures and targets
+//		//convert all values if not already converted...
+//		if(!isConvertedToCentigrams()) {
+//			convertToCentigrams();
+//		}
+//		
+//		return this;
+//	}
 	
-	public SpecimenHunterDatabaseAdapter open() throws SQLException {
-		mDbHelper = new DatabaseHelper(mContext);
+	private SpecimenHunterDatabaseAdapter(Context context) {
+		mDbHelper = new DatabaseHelper(context);
 		mDb = mDbHelper.getWritableDatabase();
-		
-		//database version 6 introduces centigrams column to captures and targets
-		//convert all values if not already converted...
-		if(!isConvertedToCentigrams()) {
-			convertToCentigrams();
-		}
-		
-		return this;
+		if(!isConvertedToCentigrams()) convertToCentigrams();
 	}
 	
-	public void close() {
-		mDbHelper.close();
+	public static SpecimenHunterDatabaseAdapter getInstance(Context context) {
+		if(mInstance == null) {
+			mInstance = new SpecimenHunterDatabaseAdapter(context);
+		}
+		return mInstance;
 	}
+	
+//	public void close() {
+//		mDbHelper.close();
+//	}
 	
 	public boolean createCapture(String title, long speciesId, String photo, int centigrams, String comment) {
 		ContentValues capture = new ContentValues();

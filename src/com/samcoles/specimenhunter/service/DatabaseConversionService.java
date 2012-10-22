@@ -20,8 +20,8 @@ public class DatabaseConversionService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		SpecimenHunterDatabaseAdapter dbHelper = new SpecimenHunterDatabaseAdapter(this);
-		dbHelper = dbHelper.open();
+//		SpecimenHunterDatabaseAdapter dbHelper = new SpecimenHunterDatabaseAdapter(this);
+//		dbHelper = dbHelper.open();
 		
 		
 		

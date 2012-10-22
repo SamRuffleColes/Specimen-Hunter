@@ -20,6 +20,18 @@ import com.samcoles.specimenhunter.provider.ImperialWeight;
 import com.samcoles.specimenhunter.provider.SpecimenHunterDatabaseAdapter;
 
 public class PersonalBestsFragment extends SpecimenHunterBaseListFragment {
+	
+	private static PersonalBestsFragment mInstance;
+	
+	private PersonalBestsFragment() {
+		//singleton		
+	}
+	
+	public static PersonalBestsFragment getInstance() {
+		if(mInstance == null) mInstance = new PersonalBestsFragment();
+		return mInstance;
+	}
+	
 		
 	@Override
 	public void setListSortMethod(int sortMethod) {
@@ -59,9 +71,9 @@ public class PersonalBestsFragment extends SpecimenHunterBaseListFragment {
 			
 			//FIXME reimplement so that species is returned as string from fetchAllCaptures
 			//making the below db call unneccessary 
-			SpecimenHunterDatabaseAdapter dbHelper = new SpecimenHunterDatabaseAdapter(context).open();
+			SpecimenHunterDatabaseAdapter dbHelper = SpecimenHunterDatabaseAdapter.getInstance(context);
 			String species = dbHelper.fetchSpeciesName(speciesId);
-			dbHelper.close();
+			//dbHelper.close();
 			
 			ImperialWeight imperialWeight = new ImperialWeight(centigrams);
 			

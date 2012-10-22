@@ -112,8 +112,7 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 	
 	private void onConfigureSpeciesSpinner() {
 		Spinner speciesSpinner = (Spinner)findViewById(R.id.spinner_species);
-		SpecimenHunterDatabaseAdapter dbHelper = new SpecimenHunterDatabaseAdapter(this);	
-		dbHelper.open();
+		SpecimenHunterDatabaseAdapter dbHelper = SpecimenHunterDatabaseAdapter.getInstance(this);	
 		
 		Cursor speciesCursor = dbHelper.fetchAllSpecies();
 		speciesCursor.moveToFirst();	
@@ -131,7 +130,7 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 		
 		speciesSpinner.setAdapter(speciesAdapter);
 		
-		dbHelper.close();
+		//dbHelper.close();
 	}
 	
 	private void onConfigureSaveButton() {
@@ -276,9 +275,9 @@ public class EditCaptureActivity extends SpecimenHunterBaseActivity {
 		    }
 		}
 		
-		SpecimenHunterDatabaseAdapter dbHelper = new SpecimenHunterDatabaseAdapter(this).open();	
+		SpecimenHunterDatabaseAdapter dbHelper = SpecimenHunterDatabaseAdapter.getInstance(this);	
 		dbHelper.createCapture(mCapture.getTitle(), mCapture.getSpecies(), permanentImageFile.getAbsolutePath(), mCapture.getCentigrams(), mCapture.getComment());
-		dbHelper.close();
+		//dbHelper.close();
 		finish();
 	}
 	

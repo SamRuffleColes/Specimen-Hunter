@@ -21,6 +21,7 @@ public abstract class SpecimenHunterBaseListFragment extends SherlockListFragmen
 	}
 
 	public SpecimenHunterDatabaseAdapter getDbHelper() {
+		mDbHelper = SpecimenHunterDatabaseAdapter.getInstance(mContext);
 		return mDbHelper;
 	}
 	
@@ -34,14 +35,13 @@ public abstract class SpecimenHunterBaseListFragment extends SherlockListFragmen
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);		
 		mContext = getSherlockActivity();		
-		mDbHelper = new SpecimenHunterDatabaseAdapter(mContext).open();
 		mSortMethod = SpecimenHunterDatabaseAdapter.SORT_TITLE;
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		mDbHelper.close();
+		//mDbHelper.close();
 	}
 	
 	public abstract void setListSortMethod(int sortMethod);
