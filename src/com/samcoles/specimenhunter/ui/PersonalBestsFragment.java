@@ -3,6 +3,7 @@ package com.samcoles.specimenhunter.ui;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -15,28 +16,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockListFragment;
 import com.samcoles.specimenhunter.R;
+import com.samcoles.specimenhunter.SpecimenHunterApplication;
 import com.samcoles.specimenhunter.provider.ImperialWeight;
 import com.samcoles.specimenhunter.provider.SpecimenHunterDatabaseAdapter;
+import com.samcoles.specimenhunter.utils.SpecimenHunterPreferences;
 
-public class PersonalBestsFragment extends SpecimenHunterBaseListFragment {
+public class PersonalBestsFragment extends SherlockListFragment {
 	
-	private static PersonalBestsFragment mInstance;
-	
-	private PersonalBestsFragment() {
-		//singleton		
+	public static PersonalBestsFragment newInstance() {
+		return new PersonalBestsFragment();
 	}
 	
-	public static PersonalBestsFragment getInstance() {
-		if(mInstance == null) mInstance = new PersonalBestsFragment();
-		return mInstance;
-	}
-	
-		
 	@Override
-	public void setListSortMethod(int sortMethod) {
-		setSortMethod(sortMethod);
-		Cursor c = getDbHelper().fetchAllPBs(sortMethod);
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		SpecimenHunterDatabaseAdapter dbHelper = SpecimenHunterDatabaseAdapter.getInstance(SpecimenHunterApplication.getContext());
+		Cursor c = dbHelper.fetchAllCaptures(SpecimenHunterPreferences.getSortMethod());
 		setListAdapter(new PersonalBestsCursorAdapter(getActivity(), R.layout.li_personalbest, c));
 	}
 	
@@ -46,8 +43,7 @@ public class PersonalBestsFragment extends SpecimenHunterBaseListFragment {
 		private FragmentActivity mActivity;	
 		private SDImageLoader mImageLoader;
 
-		public PersonalBestsCursorAdapter(FragmentActivity activity, int layout, Cursor c) {
-			
+		public PersonalBestsCursorAdapter(FragmentActivity activity, int layout, Cursor c) {			
 			super(activity, layout, c, new String[] {}, new int[] {}, 0);
 			mLayout = layout;
 			mActivity = activity;
@@ -73,7 +69,6 @@ public class PersonalBestsFragment extends SpecimenHunterBaseListFragment {
 			//making the below db call unneccessary 
 			SpecimenHunterDatabaseAdapter dbHelper = SpecimenHunterDatabaseAdapter.getInstance(context);
 			String species = dbHelper.fetchSpeciesName(speciesId);
-			//dbHelper.close();
 			
 			ImperialWeight imperialWeight = new ImperialWeight(centigrams);
 			

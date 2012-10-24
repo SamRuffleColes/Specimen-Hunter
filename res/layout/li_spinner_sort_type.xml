@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" 
+    android:padding="3dp">
+    
+    <ImageView 
+        android:id="@+id/imageview_sort_type_icon" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_species"
+        android:paddingRight="3dp" />
+    
+    <TextView
+        android:id="@+id/textview_sort_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sort Type" />
+    
+
+</LinearLayout>

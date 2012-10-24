@@ -8,9 +8,6 @@
 package com.samcoles.specimenhunter;
 
 public final class R {
-    public static final class array {
-        public static final int sort_options=0x7f0c0000;
-    }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -1316,30 +1313,33 @@ containing a value of this type.
         public static final int clickable=0x7f020071;
         public static final int ic_action_refresh_dark=0x7f020072;
         public static final int ic_action_select_all_dark=0x7f020073;
-        public static final int ic_menu_moreoverflow_normal_holo_light=0x7f020074;
-        public static final int icon=0x7f020075;
-        public static final int md__category_background=0x7f020076;
-        public static final int md__list_focused_holo=0x7f020077;
-        public static final int md__list_longpressed_holo=0x7f020078;
-        public static final int md__list_pressed_holo_dark=0x7f020079;
-        public static final int md__list_selector_background_transition_holo_dark=0x7f02007a;
-        public static final int md__list_selector_disabled_holo_dark=0x7f02007b;
-        public static final int md__list_selector_holo_dark=0x7f02007c;
-        public static final int menu_all_captures=0x7f02007d;
-        public static final int menu_arrow=0x7f02007e;
-        public static final int menu_arrow_right=0x7f02007f;
-        public static final int menu_new_capture=0x7f020080;
-        public static final int menu_personal_bests=0x7f020081;
-        public static final int menu_species=0x7f020082;
-        public static final int menu_targets=0x7f020083;
-        public static final int photo_blank=0x7f020084;
-        public static final int vpi__tab_indicator=0x7f020085;
-        public static final int vpi__tab_selected_focused_holo=0x7f020086;
-        public static final int vpi__tab_selected_holo=0x7f020087;
-        public static final int vpi__tab_selected_pressed_holo=0x7f020088;
-        public static final int vpi__tab_unselected_focused_holo=0x7f020089;
-        public static final int vpi__tab_unselected_holo=0x7f02008a;
-        public static final int vpi__tab_unselected_pressed_holo=0x7f02008b;
+        public static final int ic_alphabet=0x7f020074;
+        public static final int ic_menu_moreoverflow_normal_holo_light=0x7f020075;
+        public static final int ic_species=0x7f020076;
+        public static final int ic_weight=0x7f020077;
+        public static final int icon=0x7f020078;
+        public static final int md__category_background=0x7f020079;
+        public static final int md__list_focused_holo=0x7f02007a;
+        public static final int md__list_longpressed_holo=0x7f02007b;
+        public static final int md__list_pressed_holo_dark=0x7f02007c;
+        public static final int md__list_selector_background_transition_holo_dark=0x7f02007d;
+        public static final int md__list_selector_disabled_holo_dark=0x7f02007e;
+        public static final int md__list_selector_holo_dark=0x7f02007f;
+        public static final int menu_all_captures=0x7f020080;
+        public static final int menu_arrow=0x7f020081;
+        public static final int menu_arrow_right=0x7f020082;
+        public static final int menu_new_capture=0x7f020083;
+        public static final int menu_personal_bests=0x7f020084;
+        public static final int menu_species=0x7f020085;
+        public static final int menu_targets=0x7f020086;
+        public static final int photo_blank=0x7f020087;
+        public static final int vpi__tab_indicator=0x7f020088;
+        public static final int vpi__tab_selected_focused_holo=0x7f020089;
+        public static final int vpi__tab_selected_holo=0x7f02008a;
+        public static final int vpi__tab_selected_pressed_holo=0x7f02008b;
+        public static final int vpi__tab_unselected_focused_holo=0x7f02008c;
+        public static final int vpi__tab_unselected_holo=0x7f02008d;
+        public static final int vpi__tab_unselected_pressed_holo=0x7f02008e;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f06002b;
@@ -1387,22 +1387,23 @@ containing a value of this type.
         public static final int disableHome=0x7f060012;
         public static final int edit_query=0x7f060030;
         public static final int edittext_comment=0x7f060040;
-        public static final int edittext_drams=0x7f06005a;
-        public static final int edittext_kilograms=0x7f06005c;
-        public static final int edittext_ounces=0x7f060058;
-        public static final int edittext_pounds=0x7f060056;
+        public static final int edittext_drams=0x7f06005c;
+        public static final int edittext_kilograms=0x7f06005e;
+        public static final int edittext_ounces=0x7f06005a;
+        public static final int edittext_pounds=0x7f060058;
         public static final int edittext_title=0x7f06003c;
-        public static final int fan_item_all_captures=0x7f06004e;
-        public static final int fan_item_new_capture=0x7f06004d;
-        public static final int fan_item_personal_bests=0x7f06004f;
-        public static final int fan_item_species=0x7f060051;
-        public static final int fan_item_targets=0x7f060050;
+        public static final int fan_item_all_captures=0x7f060050;
+        public static final int fan_item_new_capture=0x7f06004f;
+        public static final int fan_item_personal_bests=0x7f060051;
+        public static final int fan_item_species=0x7f060053;
+        public static final int fan_item_targets=0x7f060052;
         public static final int homeAsUp=0x7f06000f;
-        public static final int imagebutton_camera=0x7f060054;
-        public static final int imagebutton_gallery=0x7f060053;
+        public static final int imagebutton_camera=0x7f060056;
+        public static final int imagebutton_gallery=0x7f060055;
         public static final int imageview_capture_thumbnail=0x7f060049;
-        public static final int imageview_image=0x7f060052;
+        public static final int imageview_image=0x7f060054;
         public static final int imageview_photo=0x7f060045;
+        public static final int imageview_sort_type_icon=0x7f06004c;
         public static final int indicator=0x7f060042;
         public static final int listMode=0x7f06000b;
         /**  Used with View#setTag(int) to specify a position for the active view. 
@@ -1422,7 +1423,7 @@ containing a value of this type.
         public static final int pager=0x7f060043;
         public static final int photo_picker=0x7f06003f;
         public static final int root=0x7f060044;
-        public static final int scrollView=0x7f06004c;
+        public static final int scrollView=0x7f06004e;
         public static final int showCustom=0x7f060011;
         public static final int showHome=0x7f06000e;
         public static final int showTitle=0x7f060010;
@@ -1433,10 +1434,11 @@ containing a value of this type.
         public static final int textview_capture_species_and_weight=0x7f060047;
         public static final int textview_capture_title=0x7f060046;
         public static final int textview_capture_weight=0x7f06004b;
-        public static final int textview_drams=0x7f060059;
-        public static final int textview_kilograms=0x7f06005b;
-        public static final int textview_ounces=0x7f060057;
-        public static final int textview_pounds=0x7f060055;
+        public static final int textview_drams=0x7f06005b;
+        public static final int textview_kilograms=0x7f06005d;
+        public static final int textview_ounces=0x7f060059;
+        public static final int textview_pounds=0x7f060057;
+        public static final int textview_sort_type=0x7f06004d;
         public static final int top=0x7f060008;
         public static final int triangle=0x7f060005;
         public static final int underline=0x7f060006;
@@ -1481,13 +1483,14 @@ containing a value of this type.
         public static final int dialog_photo_viewer=0x7f030019;
         public static final int li_capture=0x7f03001a;
         public static final int li_personalbest=0x7f03001b;
-        public static final int menu=0x7f03001c;
-        public static final int photo_picker=0x7f03001d;
-        public static final int photo_picker_unavailable=0x7f03001e;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001f;
-        public static final int sherlock_spinner_item=0x7f030020;
-        public static final int weight_input_imperial=0x7f030021;
-        public static final int weight_input_metric=0x7f030022;
+        public static final int li_spinner_sort_type=0x7f03001c;
+        public static final int menu=0x7f03001d;
+        public static final int photo_picker=0x7f03001e;
+        public static final int photo_picker_unavailable=0x7f03001f;
+        public static final int sherlock_spinner_dropdown_item=0x7f030020;
+        public static final int sherlock_spinner_item=0x7f030021;
+        public static final int weight_input_imperial=0x7f030022;
+        public static final int weight_input_metric=0x7f030023;
     }
     public static final class raw {
         public static final int databasecreate=0x7f040000;
@@ -1546,7 +1549,7 @@ containing a value of this type.
         public static final int all_captures=0x7f0b0011;
         public static final int app_name=0x7f0b000f;
         public static final int capture_title=0x7f0b0019;
-        public static final int cd_thumbnail=0x7f0b0022;
+        public static final int cd_thumbnail=0x7f0b0025;
         public static final int comment=0x7f0b001f;
         public static final int drams=0x7f0b001c;
         public static final int kilograms=0x7f0b001d;
@@ -1557,6 +1560,15 @@ containing a value of this type.
         public static final int photo_picker_unavailable=0x7f0b0021;
         public static final int pounds=0x7f0b001a;
         public static final int save=0x7f0b0020;
+        public static final int sort_species=0x7f0b0023;
+        /**      <string-array name="sort_options"> 
+         <item>Sort by title</item> 
+         <item>Sort by species</item> 
+         <item>Sort by weight</item> 
+     </string-array> 
+         */
+        public static final int sort_title=0x7f0b0022;
+        public static final int sort_weight=0x7f0b0024;
         public static final int species=0x7f0b0014;
         public static final int species_and_weight_imperial=0x7f0b0015;
         public static final int species_and_weight_metric=0x7f0b0016;

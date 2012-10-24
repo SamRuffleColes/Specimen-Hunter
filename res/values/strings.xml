@@ -26,9 +26,13 @@
     
     <string name="photo_picker_unavailable">Photos unavailable. Cannot read and write storage. Please ensure SD card is available and the device is not connected to a computer.</string>
     
-    <string-array name="sort_options">
-        <item>Sort by title</item>
-        <item>Sort by species</item>
-        <item>Sort by weight</item>
-    </string-array>
+<!--     <string-array name="sort_options"> -->
+<!--         <item>Sort by title</item> -->
+<!--         <item>Sort by species</item> -->
+<!--         <item>Sort by weight</item> -->
+<!--     </string-array> -->
+    
+    <string name="sort_title">Sort by title</string>
+    <string name="sort_species">Sort by species</string>
+    <string name="sort_weight">Sort by weight</string>
 </resources>

@@ -1,18 +1,27 @@
 package com.samcoles.specimenhunter.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.widget.ArrayAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.SpinnerAdapter;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.samcoles.specimenhunter.R;
 import com.samcoles.specimenhunter.provider.SpecimenHunterDatabaseAdapter;
+import com.samcoles.specimenhunter.utils.SpecimenHunterPreferences;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -48,11 +57,74 @@ public class ViewCapturesActivity extends SpecimenHunterBaseActivity implements 
         	mPager.setCurrentItem(launchTab);
         }
         
-        SpinnerAdapter spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.sort_options, android.R.layout.simple_spinner_dropdown_item);
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		actionBar.setListNavigationCallbacks(spinnerAdapter, this);
-        
+        SpinnerAdapter spinnerAdapter = new SortTypeSpinnerAdapter();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        actionBar.setListNavigationCallbacks(spinnerAdapter, this);     
+        actionBar.setSelectedNavigationItem(SpecimenHunterPreferences.getSortMethod());
+	}
+	
+	private class SortTypeSpinnerAdapter extends BaseAdapter {
+						
+		List<SortTypeItem> mItems;
+		
+		public SortTypeSpinnerAdapter() {
+			mItems = new ArrayList<SortTypeItem>();
+			mItems.add(new SortTypeItem(getString(R.string.sort_title), R.drawable.ic_alphabet));
+			mItems.add(new SortTypeItem(getString(R.string.sort_species), R.drawable.ic_species));
+			mItems.add(new SortTypeItem(getString(R.string.sort_weight), R.drawable.ic_weight));
+		}
+
+		@Override
+		public int getCount() {
+			return mItems.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return mItems.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return mItems.get(position).getId();
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			LayoutInflater inflater = getLayoutInflater();
+			View spinnerSortTypeView = inflater.inflate(R.layout.li_spinner_sort_type, null);
+			TextView text = (TextView)spinnerSortTypeView.findViewById(R.id.textview_sort_type);
+			ImageView icon = (ImageView)spinnerSortTypeView.findViewById(R.id.imageview_sort_type_icon);
+			text.setText(mItems.get(position).getText());
+			icon.setImageResource(mItems.get(position).getDrawable());
+			
+			return spinnerSortTypeView;
+		}
+		
+		private class SortTypeItem {
+			
+			private int mId;
+			private int mDrawable;
+			private String mText;
+			
+			public SortTypeItem(String text, int drawable) {
+				mDrawable = drawable;
+				mText = text;
+			}
+			
+			public int getId() {
+				return mId;
+			}
+
+			public int getDrawable() {
+				return mDrawable;
+			}
+			public String getText() {
+				return mText;
+			}			
+		}
+		
 	}
 	
 	@Override
@@ -60,13 +132,16 @@ public class ViewCapturesActivity extends SpecimenHunterBaseActivity implements 
 					
 		switch(itemPosition) {
 			case 0:
-				mAdapter.setFragmentListSortMethod(SpecimenHunterDatabaseAdapter.SORT_TITLE);
+				SpecimenHunterPreferences.setSortMethod(SpecimenHunterDatabaseAdapter.SORT_TITLE);
+				mAdapter.notifyDataSetChanged();
 				break;
 			case 1:
-				mAdapter.setFragmentListSortMethod(SpecimenHunterDatabaseAdapter.SORT_SPECIES);
+				SpecimenHunterPreferences.setSortMethod(SpecimenHunterDatabaseAdapter.SORT_SPECIES);
+				mAdapter.notifyDataSetChanged();
 				break;
 			case 2:
-				mAdapter.setFragmentListSortMethod(SpecimenHunterDatabaseAdapter.SORT_WEIGHT);
+				SpecimenHunterPreferences.setSortMethod(SpecimenHunterDatabaseAdapter.SORT_WEIGHT);
+				mAdapter.notifyDataSetChanged();
 				break;
 			default:
 				return false;
@@ -83,12 +158,12 @@ public class ViewCapturesActivity extends SpecimenHunterBaseActivity implements 
 		@Override
 		public Fragment getItem(int position) {
 			switch(position) {
-			case ALL_CAPTURES_TAB:
-				return AllCapturesFragment.getInstance();
-			case PERSONAL_BESTS_TAB:
-				return PersonalBestsFragment.getInstance();
-			default:
-				return null;
+				case ALL_CAPTURES_TAB:
+					return AllCapturesFragment.newInstance();
+				case PERSONAL_BESTS_TAB:
+					return PersonalBestsFragment.newInstance();
+				default:
+					return null;
 			}
 		}
 		
@@ -101,12 +176,12 @@ public class ViewCapturesActivity extends SpecimenHunterBaseActivity implements 
         public CharSequence getPageTitle(int position) {
 			return ViewCapturesActivity.FRAGMENT_TITLES[position];
         }
+
+		//forces refresh when notifyDataSetChanged() is called
+		@Override
+		public int getItemPosition(Object object) {
+			return PagerAdapter.POSITION_NONE;
+		}	
 		
-		public void setFragmentListSortMethod(int sortMethod) {
-			for (int i = 0; i < getCount(); i++) {
-				SpecimenHunterBaseListFragment fragment = (SpecimenHunterBaseListFragment) getItem(i);
-				if(fragment != null) fragment.setListSortMethod(sortMethod);
-			}					
-		}
 	}	
 }

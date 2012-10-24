@@ -4,6 +4,7 @@ package com.samcoles.specimenhunter.ui;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,30 +17,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockListFragment;
 import com.samcoles.specimenhunter.R;
+import com.samcoles.specimenhunter.SpecimenHunterApplication;
 import com.samcoles.specimenhunter.provider.ImperialWeight;
 import com.samcoles.specimenhunter.provider.SpecimenHunterDatabaseAdapter;
+import com.samcoles.specimenhunter.utils.SpecimenHunterPreferences;
 
-public class AllCapturesFragment extends SpecimenHunterBaseListFragment {
+public class AllCapturesFragment extends SherlockListFragment {
 	
-	private static AllCapturesFragment mInstance;
-	
-	private AllCapturesFragment() {
-		//singleton
-	}
-	
-	public static AllCapturesFragment getInstance() {
-		if(mInstance == null) mInstance = new AllCapturesFragment();
-		return mInstance;
+	public static AllCapturesFragment newInstance() {
+		return new AllCapturesFragment();		
 	}
 	
 	@Override
-	public void setListSortMethod(int sortMethod) {
-		setSortMethod(sortMethod);
-		Cursor c = getDbHelper().fetchAllCaptures(sortMethod);
-		setListAdapter(new AllCapturesCursorAdapter(getActivity(), R.layout.li_capture, c));		
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		SpecimenHunterDatabaseAdapter dbHelper = SpecimenHunterDatabaseAdapter.getInstance(SpecimenHunterApplication.getContext());
+		Cursor c = dbHelper.fetchAllCaptures(SpecimenHunterPreferences.getSortMethod());
+		setListAdapter(new AllCapturesCursorAdapter(getActivity(), R.layout.li_capture, c));
 	}
-	
+
 	private class AllCapturesCursorAdapter extends SimpleCursorAdapter {
 		private int mLayout;
 		private FragmentActivity mActivity;	
